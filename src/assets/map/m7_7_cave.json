@@ -1,0 +1,75 @@
+{
+  "map": [
+    "xxxxxxxxxxxxxxxx",
+    "xxxxxxxxxxxxxxxx",
+    "xxbbbbbbbbbbbbxx",
+    "xxbbbbbbbbbbbbxx",
+    "xxbbbbbbbbbbbbxx",
+    "xxbbbbbbbbbbbbxx",
+    "xxbbbbbbbbbbbbxx",
+    "xxbbbbbbbbbbbbxx",
+    "xxbbbbbbbbbbbbxx",
+    "xxxxxxxbbxxxxxxx",
+    "xxxxxxxbbxxxxxxx"
+  ],
+
+  "color": 0,
+  "properties": {
+    "solid": [12, 13, 14, 18, 19, 20]
+  },
+  "entities": [
+    {
+      "name": "portal",
+      "position": { "x": 7, "y": 10.8 },
+      "size": { "width": 32, "height": 4 },
+      "traits": [
+        {
+          "name": "portal",
+          "payload": { "map": "m7_7", "position": { "x": 4, "y": 1 } }
+        }
+      ]
+    },
+    {
+      "name": "old man",
+      "position": { "x": 7.5, "y": 4 },
+      "size": { "width": 16, "height": 16 },
+      "traits": [
+        {
+          "name": "renderable",
+          "payload": {
+            "spritesheet": "chars.png",
+            "position": { "x": 1, "y": 11 }
+          }
+        }
+      ]
+    },
+    {
+      "name": "flame",
+      "position": { "x": 4.5, "y": 4 },
+      "size": { "width": 16, "height": 16 },
+      "traits": [
+        {
+          "name": "renderable",
+          "payload": {
+            "spritesheet": "chars.png",
+            "position": { "x": 52, "y": 11 }
+          }
+        }
+      ]
+    },
+    {
+      "name": "flame",
+      "position": { "x": 10.5, "y": 4 },
+      "size": { "width": 16, "height": 16 },
+      "traits": [
+        {
+          "name": "renderable",
+          "payload": {
+            "spritesheet": "chars.png",
+            "position": { "x": 52, "y": 11 }
+          }
+        }
+      ]
+    }
+  ]
+}

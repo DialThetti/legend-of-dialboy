@@ -9,7 +9,28 @@ export class PlayerRenderService {
     this.player = await loadImage('./gfx/link.png');
   }
 
-  drawPlayer(ctx: CanvasRenderingContext2D) {
+  async drawPlayer(ctx: CanvasRenderingContext2D) {
+    const renderableEntities = this.playerState.map.entities.filter(e => e.traits.find(t => t.name === 'renderable'));
+
+    await Promise.all(
+      renderableEntities.map(async e => {
+        const r = e.traits.find(t => t.name === 'renderable');
+        const i = await loadImage('./gfx/' + r?.payload.spritesheet);
+        const spritePos = r?.payload.position;
+        ctx.drawImage(
+          i,
+          spritePos.x,
+          spritePos.y,
+          e.size.width,
+          e.size.height,
+          e.position.x * 16,
+          e.position.y * 16 + 4 * 16,
+          e.size.width,
+          e.size.height
+        );
+      })
+    );
+
     let [sx, sy] = {
       LEFT: [30, 0],
       UP: [62, 0],
@@ -30,5 +51,13 @@ export class PlayerRenderService {
       16,
       16
     );
+
+    if ((window as any).debug) {
+      ctx.strokeStyle = 'blue';
+      this.playerState.map.entities.forEach(entity => {
+        ctx.strokeRect(entity.position.x * 16, 4 * 16 + entity.position.y * 16, entity.size.width, entity.size.height);
+      });
+      ctx.strokeRect(this.playerState.position.x * 16, 4 * 16 + this.playerState.position.y * 16 - 6, 16, 16);
+    }
   }
 }

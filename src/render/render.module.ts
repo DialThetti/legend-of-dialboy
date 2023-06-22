@@ -12,6 +12,7 @@ export class RenderModule {
   async load() {
     const canvas = document.getElementById('screen') as HTMLCanvasElement;
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    this.ctx.scale(1, 1);
     const playerRender = new PlayerRenderService(this.core.playerState);
     const worldRender = new WorldRenderService(this.core.playerState);
     await worldRender.load();

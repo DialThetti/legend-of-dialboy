@@ -1,6 +1,6 @@
 export class ClockService {
   private tick(f: () => void, frequency: number): void {
-    setTimeout(() => {
+    setTimeout(async () => {
       requestAnimationFrame(() => this.tick(f, frequency));
       f();
     }, frequency);
