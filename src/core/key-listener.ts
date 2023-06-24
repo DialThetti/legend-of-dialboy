@@ -13,26 +13,27 @@ export class KeyListener {
     SELECT: false,
   };
 
-  constructor(private playerState: PlayerStateService, private loggerService: LoggerService) {}
+  constructor(private loggerService: LoggerService) {}
 
   private keyDown(event: KeyboardEvent) {
     switch (event.key) {
       case 'w':
         this.keys.UP = true;
-        this.playerState.direction = 'UP';
         break;
       case 'a':
         this.keys.LEFT = true;
-        this.playerState.direction = 'LEFT';
         break;
       case 's':
         this.keys.DOWN = true;
-        this.playerState.direction = 'DOWN';
         break;
       case 'd':
         this.keys.RIGHT = true;
-        this.playerState.direction = 'RIGHT';
         break;
+      case ' ':
+        this.keys.A = true;
+        break;
+      default:
+        this.loggerService.log(event.key);
     }
   }
   private keyUp(event: KeyboardEvent) {
@@ -48,6 +49,9 @@ export class KeyListener {
         break;
       case 'd':
         this.keys.RIGHT = false;
+        break;
+      case ' ':
+        this.keys.A = false;
         break;
     }
   }

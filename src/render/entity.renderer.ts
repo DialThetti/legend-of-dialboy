@@ -1,55 +1,52 @@
 import { loadImage } from '@core/load';
 import { PlayerStateService } from '@core/player-state.service';
 
-export class PlayerRenderService {
-  player!: HTMLImageElement;
-
+export class EntityRenderer {
   constructor(private playerState: PlayerStateService) {}
-  async load() {
-    this.player = await loadImage('./gfx/link.png');
-  }
+  async load() {}
 
-  async drawPlayer(ctx: CanvasRenderingContext2D) {
+  async render(ctx: CanvasRenderingContext2D) {
+    const textEntities = this.playerState.map.entities.filter(e => e.traits.find(t => t.name === 'text'));
+    textEntities.forEach(e => {
+      const txt = e.traits.find(t => t.name === 'text')?.payload;
+      if (!txt.timer) {
+        txt.timer = 0;
+      }
+      txt.timer += 1 / 5;
+
+      ctx.fillStyle = 'white';
+      ctx.font = '12px Arial';
+      ctx.fillText(
+        txt.text.substring(0, Math.floor(txt.timer - (txt.offset ?? 0))),
+        e.position.x * 16,
+        (4 + e.position.y) * 16
+      );
+    });
     const renderableEntities = this.playerState.map.entities.filter(e => e.traits.find(t => t.name === 'renderable'));
 
     await Promise.all(
       renderableEntities.map(async e => {
         const r = e.traits.find(t => t.name === 'renderable');
+        const p = e.traits.find(t => t.name === 'pickup');
+        if (p) {
+          if (!p.payload.respawn && (this.playerState.inventory as any)[p.payload.id]) {
+            return;
+          }
+        }
         const i = await loadImage('./gfx/' + r?.payload.spritesheet);
         const spritePos = r?.payload.position;
         ctx.drawImage(
           i,
           spritePos.x,
           spritePos.y,
-          e.size.width,
-          e.size.height,
+          e.size?.width ?? 0,
+          e.size?.height ?? 0,
           e.position.x * 16,
           e.position.y * 16 + 4 * 16,
-          e.size.width,
-          e.size.height
+          e.size?.width ?? 0,
+          e.size?.height ?? 0
         );
       })
-    );
-
-    let [sx, sy] = {
-      LEFT: [30, 0],
-      UP: [62, 0],
-      DOWN: [0, 0],
-      RIGHT: [91, 0],
-    }[this.playerState.direction] ?? [0, 0];
-    if (this.playerState.step > 5) {
-      sy += 30;
-    }
-    ctx.drawImage(
-      this.player,
-      sx,
-      sy,
-      16,
-      16,
-      this.playerState.position.x * 16,
-      (4 + this.playerState.position.y) * 16 - 6,
-      16,
-      16
     );
 
     if ((window as any).debug) {
@@ -57,7 +54,6 @@ export class PlayerRenderService {
       this.playerState.map.entities.forEach(entity => {
         ctx.strokeRect(entity.position.x * 16, 4 * 16 + entity.position.y * 16, entity.size.width, entity.size.height);
       });
-      ctx.strokeRect(this.playerState.position.x * 16, 4 * 16 + this.playerState.position.y * 16 - 6, 16, 16);
     }
   }
 }

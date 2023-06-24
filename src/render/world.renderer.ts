@@ -1,7 +1,7 @@
 import { loadImage } from '@core/load';
 import { PlayerStateService } from '@core/player-state.service';
 
-export class WorldRenderService {
+export class WorldRenderer {
   tiles!: HTMLImageElement;
 
   constructor(private playerState: PlayerStateService) {}
