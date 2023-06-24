@@ -1,8 +1,8 @@
 import { loadImage } from '@core/load';
-import { PlayerStateService } from '@core/player-state.service';
+import { MapState } from '@core/map-state';
 
 export class EntityRenderer {
-  constructor(private playerState: PlayerStateService) {}
+  constructor(private playerState: MapState) {}
   async load() {}
 
   async render(ctx: CanvasRenderingContext2D) {

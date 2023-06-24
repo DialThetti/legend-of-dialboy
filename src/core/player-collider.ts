@@ -1,14 +1,15 @@
 import { Entity } from 'src/models/entity';
-import { PlayerStateService } from './player-state.service';
 import { EntityCollider } from './entity-collider';
+import { PlayerEntity } from '@game/entities/player/player.entity';
+import { MapState } from './map-state';
 
 export class PlayerCollider {
-  constructor(private playerState: PlayerStateService, private entityCollider: EntityCollider) {}
+  constructor(private playerState: MapState, private player: PlayerEntity, private entityCollider: EntityCollider) {}
 
   collidesWithTile(x: number, y: number): boolean {
     const pRect = {
-      x: this.playerState.position.x * 16 + 2,
-      y: this.playerState.position.y * 16,
+      x: this.player.state.position.x * 16 + 2,
+      y: this.player.state.position.y * 16,
       w: 12,
       h: 10,
     };
@@ -37,7 +38,7 @@ export class PlayerCollider {
   }
 
   collidesWithEntity(entity: Entity): boolean {
-    let { x, y } = this.playerState.position;
+    let { x, y } = this.player.state.position;
     x *= 16;
     y *= 16;
     const ex = entity.position.x * 16;

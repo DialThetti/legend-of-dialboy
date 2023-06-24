@@ -1,23 +1,51 @@
-export class ClockService {
-  last?: number;
-  private tick(f: (dT: number) => void, frequency: number): void {
-    setTimeout(async () => {
-      requestAnimationFrame(() =>
-        this.tick(() => {
-          const now = Date.now();
-          if (!this.last) {
-            this.last = now;
-          }
-          const dT = (now - this.last) / 1000;
-          f(dT);
-          this.last = now;
-        }, frequency)
-      );
-      f(0);
-    }, frequency);
+export class Timer {
+  public fps = 0;
+
+  private lastTime = 0;
+  private accumulatedTime = 0;
+  private internalFps = 0;
+  private canceled = false;
+
+  constructor(private updateFunc: (deltaTime: number) => void, private deltaTime = 1 / 60) {}
+
+  private update(absoluteTime: number): void {
+    const currentDt = (absoluteTime - this.lastTime) / 1000;
+    this.accumulatedTime += currentDt;
+    if (this.accumulatedTime > 1) {
+      this.accumulatedTime = 1;
+      console.warn(this, 'resolve sleeping');
+    }
+    while (this.accumulatedTime > this.deltaTime) {
+      this.updateFunc(this.deltaTime);
+      this.accumulatedTime -= this.deltaTime;
+    }
+
+    this.lastTime = absoluteTime;
+    if (!this.canceled) this.enqueue();
   }
 
-  repeat(f: (dT: number) => void, frequency: number = 1000 / 60) {
-    this.tick(f, frequency);
+  public start(): void {
+    this.enqueue();
+    this.updateFps();
+  }
+
+  public cancel(): void {
+    this.canceled = true;
+  }
+  private enqueue(): void {
+    this.internalFps++;
+    requestAnimationFrame(time => this.update(time));
+  }
+
+  private updateFps(): void {
+    setTimeout(() => {
+      this.fps = this.internalFps;
+      this.internalFps = 0;
+      this.updateFps();
+    }, 1000);
+  }
+
+  static repeat(updateFunc: (deltaTime: number) => void, deltaTime = 1 / 60): Timer {
+    return new Timer(updateFunc, deltaTime);
   }
 }

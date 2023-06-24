@@ -1,5 +1,5 @@
 import { LoggerService } from '../shared/logger.service';
-import { PlayerStateService } from './player-state.service';
+import { MapState } from './map-state';
 
 export class KeyListener {
   keys = {

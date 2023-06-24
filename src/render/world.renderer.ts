@@ -1,10 +1,10 @@
 import { loadImage } from '@core/load';
-import { PlayerStateService } from '@core/player-state.service';
+import { MapState } from '@core/map-state';
 
 export class WorldRenderer {
   tiles!: HTMLImageElement;
 
-  constructor(private playerState: PlayerStateService) {}
+  constructor(private playerState: MapState) {}
   async load() {
     this.tiles = await loadImage('./gfx/tiles-overworld.png');
   }

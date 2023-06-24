@@ -1,11 +1,10 @@
 import { Inventory } from 'src/models/inventory';
 import { Tileset } from '../models/tileset';
+import { PlayerEntity } from '@game/entities/player/player.entity';
 
-export class PlayerStateService {
-  direction = 'UP';
-  position = { x: 5, y: 5 };
+export class MapState {
+  player!: PlayerEntity;
   map!: Tileset;
-  step = 0;
   inventory: Inventory = { swordL1: false, rupees: 0 };
 
   isSolidTile(p: { x: number; y: number }) {
