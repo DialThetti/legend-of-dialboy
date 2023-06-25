@@ -1,6 +1,7 @@
 import { Animation } from 'src/render/core/animation';
 import { PlayerAnimation } from './player.animation';
 import { PlayerEntity } from './player.entity';
+import { ItemEntity } from '../item/item.entity';
 
 export class PlayerRenderer {
   playerAnim!: Animation;
@@ -10,7 +11,21 @@ export class PlayerRenderer {
   }
 
   async render(ctx: CanvasRenderingContext2D, dT: number) {
-    const aniId = (this.entity.state.step === 0 ? 'Stand' : '') + this.entity.state.direction;
+    let aniId;
+    if (this.entity.state.presentItem) {
+      aniId = 'presentItem';
+      const item = new ItemEntity();
+      await item.load({
+        id: this.entity.state.presentItem.item,
+        position: {
+          x: this.entity.state.position.x + 0.25,
+          y: this.entity.state.position.y - 1.25,
+        },
+      });
+      item.renderer.render(ctx, dT);
+    } else {
+      aniId = (this.entity.state.step === 0 ? 'Stand' : '') + this.entity.state.direction;
+    }
     this.playerAnim.getSprite(aniId, dT).draw(ctx, {
       x: Math.floor(this.entity.state.position.x * 16),
       y: Math.floor((4 + this.entity.state.position.y) * 16 - 6),

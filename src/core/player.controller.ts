@@ -19,6 +19,13 @@ export class PlayerController {
 
   // TODO make speed intependend from FrameRate
   async update(dT: number) {
+    if (this.player.state.presentItem) {
+      this.player.state.presentItem.timer -= dT;
+      if (this.player.state.presentItem.timer <= 0) {
+        delete this.player.state.presentItem;
+      }
+      return;
+    }
     if (this.keyListener.keys.LEFT) {
       this.currentWalk = 'l';
       this.player.state.direction = 'LEFT';
@@ -94,6 +101,7 @@ export class PlayerController {
     if (entity.traits.find(t => t.name === 'pickup')) {
       const t = entity.traits.find(t => t.name == 'pickup') as any;
       if (!t?.payload.respawn && !(this.playerState.inventory as any)[t.payload.id]) {
+        this.player.state.presentItem = { item: t.payload.id, timer: 1.5 };
         (this.playerState.inventory as any)[t.payload.id] = true;
       }
     }

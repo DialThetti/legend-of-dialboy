@@ -15,6 +15,7 @@ export class PlayerAnimation extends Animation {
       UP2: { x: 60, y: 30, w: 16, h: 16 },
       LEFT2: { x: 30, y: 30, w: 16, h: 16 },
       RIGHT2: { x: 90, y: 30, w: 16, h: 16 },
+      presentItem: { x: 1, y: 150, w: 16, h: 16 },
     });
     return new PlayerAnimation(player, {
       StandUP: { steps: ['UP1'], duration: 1 / 10 },
@@ -25,6 +26,7 @@ export class PlayerAnimation extends Animation {
       RIGHT: { steps: ['RIGHT1', 'RIGHT2'], duration: 1 / 10 },
       StandDOWN: { steps: ['DOWN1'], duration: 1 / 10 },
       DOWN: { steps: ['DOWN1', 'DOWN2'], duration: 1 / 10 },
+      presentItem: { steps: ['presentItem'], duration: 1 / 10 },
     });
   }
 }

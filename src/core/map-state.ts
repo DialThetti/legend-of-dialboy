@@ -14,4 +14,5 @@ export class MapState {
     }
     return this.map.properties.solid.includes(tile);
   }
+  //TODO entities loaded here
 }
