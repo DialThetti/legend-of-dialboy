@@ -14,4 +14,12 @@ export class PlayerEntity {
       step: 0,
     };
   }
+  async update(dT: number) {
+    if (this.state.presentItem) {
+      this.state.presentItem.timer -= dT;
+      if (this.state.presentItem.timer <= 0) {
+        delete this.state.presentItem;
+      }
+    }
+  }
 }

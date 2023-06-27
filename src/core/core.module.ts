@@ -7,6 +7,7 @@ import { PlayerController } from './player.controller';
 import { PlayerCollider } from './player-collider';
 import { Timer } from 'src/shared/clock';
 import { PlayerEntity } from '@game/entities/player/player.entity';
+import { MapEntity } from '@game/entities/map/map.entity';
 export class CoreModule {
   private static instance?: CoreModule;
 
@@ -30,6 +31,8 @@ export class CoreModule {
       this.mapLoader,
       playerCollider
     );
+    this.mapState.mapEntity = new MapEntity();
+    await this.mapState.mapEntity.load(this.mapState.map);
     kl.start();
     let last = Date.now();
     Timer.repeat((dT: number) => {

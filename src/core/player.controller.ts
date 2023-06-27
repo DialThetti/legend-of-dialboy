@@ -4,6 +4,7 @@ import { MapState } from './map-state';
 import { MapLoaderService } from './map-loader.service';
 import { PlayerCollider } from './player-collider';
 import { PlayerEntity } from '@game/entities/player/player.entity';
+import { MapEntity } from '@game/entities/map/map.entity';
 
 export class PlayerController {
   blockTrigger = false;
@@ -19,50 +20,48 @@ export class PlayerController {
 
   // TODO make speed intependend from FrameRate
   async update(dT: number) {
-    if (this.player.state.presentItem) {
-      this.player.state.presentItem.timer -= dT;
-      if (this.player.state.presentItem.timer <= 0) {
-        delete this.player.state.presentItem;
-      }
+    this.player.update(dT);
+    const { state } = this.player;
+    if (state.presentItem) {
       return;
     }
     if (this.keyListener.keys.LEFT) {
       this.currentWalk = 'l';
-      this.player.state.direction = 'LEFT';
+      state.direction = 'LEFT';
       if (this.playerCollider.collidesWithTile(-this.speed, 0)) {
         return;
       }
-      this.player.state.position.x -= this.speed;
-      this.player.state.step += 1;
+      state.position.x -= this.speed;
+      state.step += 1;
     } else if (this.keyListener.keys.RIGHT) {
       this.currentWalk = 'r';
-      this.player.state.direction = 'RIGHT';
+      state.direction = 'RIGHT';
       if (this.playerCollider.collidesWithTile(+this.speed, 0)) {
         return;
       }
-      this.player.state.position.x += this.speed;
-      this.player.state.step += 1;
+      state.position.x += this.speed;
+      state.step += 1;
     } else if (this.keyListener.keys.UP) {
       this.currentWalk = 'u';
-      this.player.state.direction = 'UP';
+      state.direction = 'UP';
       if (this.playerCollider.collidesWithTile(0, -this.speed)) {
         return;
       }
-      this.player.state.position.y -= this.speed;
-      this.player.state.step += 1;
+      state.position.y -= this.speed;
+      state.step += 1;
     } else if (this.keyListener.keys.DOWN) {
       this.currentWalk = 'd';
-      this.player.state.direction = 'DOWN';
+      state.direction = 'DOWN';
       if (this.playerCollider.collidesWithTile(0, this.speed)) {
         return;
       }
-      this.player.state.position.y += this.speed;
-      this.player.state.step += 1;
+      state.position.y += this.speed;
+      state.step += 1;
     } else {
-      this.player.state.step = 0;
+      state.step = 0;
     }
-    if (this.player.state.step > 10) {
-      this.player.state.step -= 10;
+    if (state.step > 10) {
+      state.step -= 10;
     }
     this.checkCollide();
   }
@@ -78,30 +77,33 @@ export class PlayerController {
   }
 
   async handleCollide(entity: Entity): Promise<void> {
+    const { state } = this.player;
     if (entity.traits.find(t => t.name === 'solid')) {
       if (this.currentWalk === 'l') {
-        this.player.state.position.x += this.speed;
+        state.position.x += this.speed;
       }
       if (this.currentWalk === 'r') {
-        this.player.state.position.x -= this.speed;
+        state.position.x -= this.speed;
       }
       if (this.currentWalk === 'u') {
-        this.player.state.position.y += this.speed;
+        state.position.y += this.speed;
       }
       if (this.currentWalk === 'd') {
-        this.player.state.position.y -= this.speed;
+        state.position.y -= this.speed;
       }
     }
     if (entity.traits.find(t => t.name == 'portal')) {
       const t = entity.traits.find(t => t.name == 'portal');
-      this.player.state.position.x = t?.payload.position.x;
-      this.player.state.position.y = t?.payload.position.y;
+      state.position.x = t?.payload.position.x;
+      state.position.y = t?.payload.position.y;
       this.playerState.map = await this.mapLoader.loadMap(t?.payload.map);
+      this.playerState.mapEntity = new MapEntity();
+      await this.playerState.mapEntity.load(this.playerState.map);
     }
     if (entity.traits.find(t => t.name === 'pickup')) {
       const t = entity.traits.find(t => t.name == 'pickup') as any;
       if (!t?.payload.respawn && !(this.playerState.inventory as any)[t.payload.id]) {
-        this.player.state.presentItem = { item: t.payload.id, timer: 1.5 };
+        state.presentItem = { item: t.payload.id, timer: 1.5 };
         (this.playerState.inventory as any)[t.payload.id] = true;
       }
     }

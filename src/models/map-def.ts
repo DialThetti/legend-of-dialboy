@@ -1,6 +1,6 @@
 import { Entity } from './entity';
 
-export interface Tileset {
+export interface MapDefinition {
   tiles: number[][];
   map: string[];
   color: number;
