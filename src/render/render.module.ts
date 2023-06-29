@@ -3,6 +3,7 @@ import { SharedModule } from 'src/shared/shared.module';
 import { EntityRenderer } from './entity.renderer';
 import { Timer } from 'src/shared/clock';
 import { EntityState } from '../core/entities/entity.state';
+import { HUDRenderer } from './hud.renderer';
 
 export class RenderModule {
   fps = 60;
@@ -15,6 +16,8 @@ export class RenderModule {
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     this.ctx.scale(1, 1);
     const entityRenderer = new EntityRenderer(this.core.mapState);
+    const hud = new HUDRenderer();
+    await hud.load(this.core.mapState);
 
     Timer.repeat(async dT => {
       const entities = this.core.mapState.getEntities();
@@ -23,6 +26,7 @@ export class RenderModule {
       for (const re of renderers) {
         await re.render(this.ctx, dT);
       }
+      hud.render(this.ctx, dT);
     }).start();
   }
   private static instance?: RenderModule;

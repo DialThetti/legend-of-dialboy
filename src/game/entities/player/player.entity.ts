@@ -11,6 +11,7 @@ export class PlayerEntity implements Entity {
     this.renderer = new PlayerRenderer(this);
     await this.renderer.load();
     this.state = {
+      hearts: { current: 3, max: 3 },
       direction: 'UP',
       position: { x: 5, y: 5, z: 100 },
       step: 0,

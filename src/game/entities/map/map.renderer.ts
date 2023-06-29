@@ -9,7 +9,7 @@ export class MapRenderer {
   }
 
   render(ctx: CanvasRenderingContext2D, dT: number) {
-    ctx.fillStyle = 'rgb(20,20,20)';
+    ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, 256, 240);
     for (let x = 0; x < this.entity.state.tiles.length; x++) {
       for (let y = 0; y < this.entity.state.tiles[x].length; y++) {
