@@ -1,5 +1,4 @@
 import { LoggerService } from '../shared/logger.service';
-import { MapState } from './map-state';
 
 export class KeyListener {
   keys = {

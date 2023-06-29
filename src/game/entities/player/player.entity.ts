@@ -1,7 +1,9 @@
+import { Entity } from '../../../core/entities/entity';
+import { EntityState } from '../../../core/entities/entity.state';
 import { PlayerRenderer } from './player.renderer';
 import { PlayerState } from './player.state';
 
-export class PlayerEntity {
+export class PlayerEntity implements Entity {
   state!: PlayerState;
   renderer!: PlayerRenderer;
 
@@ -10,7 +12,7 @@ export class PlayerEntity {
     await this.renderer.load();
     this.state = {
       direction: 'UP',
-      position: { x: 5, y: 5 },
+      position: { x: 5, y: 5, z: 100 },
       step: 0,
     };
   }

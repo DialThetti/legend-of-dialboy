@@ -1,9 +1,10 @@
-import { Inventory } from 'src/models/inventory';
-import { PlayerEntity } from '@game/entities/player/player.entity';
-import { MapDefinition } from 'src/models/map-def';
-import { MapEntity } from '@game/entities/map/map.entity';
+import { MapEntity } from '../game/entities/map/map.entity';
+import { PlayerEntity } from '../game/entities/player/player.entity';
+import { Inventory } from '../models/inventory';
+import { MapDefinition } from '../models/map-def';
+import { Entity } from './entities/entity';
 
-export class MapState {
+export class GameState {
   player!: PlayerEntity;
   mapEntity!: MapEntity;
   map!: MapDefinition;
@@ -17,4 +18,8 @@ export class MapState {
     return this.map.properties.solid.includes(tile);
   }
   //TODO entities loaded here
+
+  getEntities(): Entity[] {
+    return [this.mapEntity, this.player];
+  }
 }

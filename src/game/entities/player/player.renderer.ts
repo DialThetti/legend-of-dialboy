@@ -2,8 +2,9 @@ import { Animation } from 'src/render/core/animation';
 import { PlayerAnimation } from './player.animation';
 import { PlayerEntity } from './player.entity';
 import { ItemEntity } from '../item/item.entity';
+import { EntityRenderer } from '../../../core/entities/entity.renderer';
 
-export class PlayerRenderer {
+export class PlayerRenderer implements EntityRenderer {
   playerAnim!: Animation;
   constructor(private entity: PlayerEntity) {}
   async load() {
@@ -20,6 +21,7 @@ export class PlayerRenderer {
         position: {
           x: this.entity.state.position.x + 0.25,
           y: this.entity.state.position.y - 1.25,
+          z: this.entity.state.position.z,
         },
       });
       item.renderer.render(ctx, dT);

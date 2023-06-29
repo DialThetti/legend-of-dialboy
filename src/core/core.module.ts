@@ -1,6 +1,5 @@
 import { SharedModule } from '../shared/shared.module';
 import { KeyListener } from './key-listener';
-import { MapState } from './map-state';
 import { MapLoaderService } from './map-loader.service';
 import { EntityCollider } from './entity-collider';
 import { PlayerController } from './player.controller';
@@ -8,10 +7,11 @@ import { PlayerCollider } from './player-collider';
 import { Timer } from 'src/shared/clock';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { MapEntity } from '@game/entities/map/map.entity';
+import { GameState } from './game-state';
 export class CoreModule {
   private static instance?: CoreModule;
 
-  mapState = new MapState();
+  mapState = new GameState();
   mapLoader = new MapLoaderService();
   private constructor(private sharedModule: SharedModule) {}
 

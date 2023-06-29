@@ -1,4 +1,5 @@
-export interface ItemState {
+import { EntityState } from '../../../core/entities/entity.state';
+
+export interface ItemState extends EntityState {
   id: string;
-  position: { x: number; y: number };
 }

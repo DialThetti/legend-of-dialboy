@@ -1,9 +1,9 @@
-import { Tileset } from 'src/models/tileset';
+import { MapDefinition } from '../models/map-def';
 import { loadJson } from './load';
 
 export class MapLoaderService {
-  async loadMap(id: string): Promise<Tileset> {
-    const map = await loadJson<Tileset>(`./map/${id}.json`);
+  async loadMap(id: string): Promise<MapDefinition> {
+    const map = await loadJson<MapDefinition>(`./map/${id}.json`);
     if (!map.entities) {
       map.entities = [];
     }

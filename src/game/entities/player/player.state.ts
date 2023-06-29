@@ -1,7 +1,8 @@
-export interface PlayerState {
+import { EntityState } from '../../../core/entities/entity.state';
+
+export interface PlayerState extends EntityState {
   step: number;
   direction: string;
-  position: { x: number; y: number };
   presentItem?: {
     item: string;
     timer: number;

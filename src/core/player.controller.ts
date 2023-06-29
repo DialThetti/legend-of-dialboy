@@ -1,6 +1,6 @@
 import { Entity } from 'src/models/entity';
 import { KeyListener } from './key-listener';
-import { MapState } from './map-state';
+import { GameState } from './game-state';
 import { MapLoaderService } from './map-loader.service';
 import { PlayerCollider } from './player-collider';
 import { PlayerEntity } from '@game/entities/player/player.entity';
@@ -11,7 +11,7 @@ export class PlayerController {
   currentWalk?: string;
   speed = 1 / 10;
   constructor(
-    private playerState: MapState,
+    private playerState: GameState,
     private player: PlayerEntity,
     private keyListener: KeyListener,
     private mapLoader: MapLoaderService,

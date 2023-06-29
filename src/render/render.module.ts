@@ -1,10 +1,8 @@
 import { CoreModule } from '@core/core.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { EntityRenderer } from './entity.renderer';
-import { PlayerRenderer } from '@game/entities/player/player.renderer';
 import { Timer } from 'src/shared/clock';
-import { PlayerEntity } from '@game/entities/player/player.entity';
-import { MapEntity } from '@game/entities/map/map.entity';
+import { EntityState } from '../core/entities/entity.state';
 
 export class RenderModule {
   fps = 60;
@@ -18,10 +16,13 @@ export class RenderModule {
     this.ctx.scale(1, 1);
     const entityRenderer = new EntityRenderer(this.core.mapState);
 
-    Timer.repeat(dT => {
-      this.core.mapState.mapEntity.renderer.render(this.ctx);
-      entityRenderer.render(this.ctx);
-      this.core.mapState.player.renderer.render(this.ctx, dT);
+    Timer.repeat(async dT => {
+      const entities = this.core.mapState.getEntities();
+      entities.push({ state: { position: { z: 50 } } as EntityState, renderer: entityRenderer });
+      const renderers = entities.sort((a, b) => a.state.position.z - b.state.position.z).map(a => a.renderer);
+      for (const re of renderers) {
+        await re.render(this.ctx, dT);
+      }
     }).start();
   }
   private static instance?: RenderModule;

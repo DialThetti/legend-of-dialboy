@@ -1,8 +1,9 @@
 import { MapRenderer } from './map.renderer';
 import { MapDefinition } from 'src/models/map-def';
 import { MapState } from './map.state';
+import { Entity } from '../../../core/entities/entity';
 
-export class MapEntity {
+export class MapEntity implements Entity {
   state!: MapState;
   renderer!: MapRenderer;
 
@@ -12,6 +13,7 @@ export class MapEntity {
     this.state = {
       tiles: mapDef.tiles,
       color: mapDef.color,
+      position: { x: 0, y: 0, z: 0 },
     };
   }
 }

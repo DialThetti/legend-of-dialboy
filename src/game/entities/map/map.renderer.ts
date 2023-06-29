@@ -8,7 +8,7 @@ export class MapRenderer {
     this.tiles = await loadImage('./gfx/tiles-overworld.png');
   }
 
-  render(ctx: CanvasRenderingContext2D) {
+  render(ctx: CanvasRenderingContext2D, dT: number) {
     ctx.fillStyle = 'rgb(20,20,20)';
     ctx.fillRect(0, 0, 256, 240);
     for (let x = 0; x < this.entity.state.tiles.length; x++) {
