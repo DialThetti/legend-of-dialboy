@@ -1,0 +1,14 @@
+{ "columns":24,
+ "image":"16x16\/RGW_Village.png",
+ "imageheight":512,
+ "imagewidth":384,
+ "margin":0,
+ "name":"RGW_Village",
+ "spacing":0,
+ "tilecount":768,
+ "tiledversion":"1.7.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.6"
+}

@@ -1,0 +1,15 @@
+{
+  "columns": 45,
+  "image": "../gfx/16x16/sRGW_Overworld.png",
+  "imageheight": 256,
+  "imagewidth": 720,
+  "margin": 0,
+  "name": "sRGW_Overworld",
+  "spacing": 0,
+  "tilecount": 720,
+  "tiledversion": "1.7.2",
+  "tileheight": 16,
+  "tilewidth": 16,
+  "type": "tileset",
+  "version": "1.6"
+}
