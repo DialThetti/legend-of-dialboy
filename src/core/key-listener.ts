@@ -10,6 +10,7 @@ export class KeyListener {
     B: false,
     START: false,
     SELECT: false,
+    debug: false,
   };
 
   constructor(private loggerService: LoggerService) {}
@@ -31,6 +32,9 @@ export class KeyListener {
       case ' ':
         this.keys.A = true;
         break;
+      case '<':
+        this.keys.debug = !this.keys.debug;
+        break;
       default:
         this.loggerService.log(event.key);
     }
@@ -48,6 +52,8 @@ export class KeyListener {
         break;
       case 'd':
         this.keys.RIGHT = false;
+        break;
+      case '<':
         break;
       case ' ':
         this.keys.A = false;

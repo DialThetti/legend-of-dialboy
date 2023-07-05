@@ -1,0 +1,14 @@
+{ "columns":24,
+ "image":"..\/gfx\/16x16\/RGW_Ground_Tiles.png",
+ "imageheight":336,
+ "imagewidth":384,
+ "margin":0,
+ "name":"RGW_Ground_Tiles",
+ "spacing":0,
+ "tilecount":504,
+ "tiledversion":"1.7.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.6"
+}

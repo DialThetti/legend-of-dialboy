@@ -8,4 +8,5 @@ export interface PlayerState extends EntityState {
     item: string;
     timer: number;
   };
+  ghost: boolean;
 }

@@ -15,6 +15,7 @@ export class PlayerEntity implements Entity {
       direction: 'UP',
       position: { x: 5, y: 5, z: 100 },
       step: 0,
+      ghost: false,
     };
   }
   async update(dT: number) {

@@ -1,6 +1,5 @@
 import { CoreModule } from '@core/core.module';
 import { SharedModule } from 'src/shared/shared.module';
-import { EntityRenderer } from './entity.renderer';
 import { Timer } from 'src/shared/clock';
 import { EntityState } from '../core/entities/entity.state';
 import { HUDRenderer } from './hud.renderer';
@@ -15,17 +14,20 @@ export class RenderModule {
     const canvas = document.getElementById('screen') as HTMLCanvasElement;
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     this.ctx.scale(1, 1);
-    const entityRenderer = new EntityRenderer(this.core.mapState);
     const hud = new HUDRenderer();
     await hud.load(this.core.mapState);
 
     Timer.repeat(async dT => {
       const entities = this.core.mapState.getEntities();
-      entities.push({ state: { position: { z: 50 } } as EntityState, renderer: entityRenderer });
-      const renderers = entities.sort((a, b) => a.state.position.z - b.state.position.z).map(a => a.renderer);
+      const renderers = entities
+        .filter(e => e.state)
+        .sort((a, b) => a.state.position.z - b.state.position.z)
+        .map(a => a.renderer);
       for (const re of renderers) {
         await re.render(this.ctx, dT);
       }
+      //TODO top
+      //  this.core.mapState.mapEntity.renderer.renderTop(this.ctx, dT);
       hud.render(this.ctx, dT);
     }).start();
   }

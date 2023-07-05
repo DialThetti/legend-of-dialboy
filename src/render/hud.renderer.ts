@@ -22,6 +22,7 @@ export class HUDRenderer {
   }
 
   render(ctx: CanvasRenderingContext2D, dT: number) {
+    return;
     this.spriteSheet.getSprite('back')?.draw(ctx, { x: 0, y: 0 });
     this.renderHearts(ctx);
     this.renderItems(ctx);
@@ -29,7 +30,7 @@ export class HUDRenderer {
 
   renderItems(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = 'black';
-    ctx.fillRect(96, 10, 24, 50);
+    ctx.fillRect(96, 0, 24, 16 * 3);
     const { rupees, keys, bombs } = this.state.inventory;
 
     const rSplit = this.getStringByNumber(rupees, 3);

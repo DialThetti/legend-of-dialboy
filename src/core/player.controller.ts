@@ -1,7 +1,6 @@
 import { Entity } from 'src/models/entity';
 import { KeyListener } from './key-listener';
 import { GameState } from './game-state';
-import { MapLoaderService } from './map-loader.service';
 import { PlayerCollider } from './player-collider';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { MapEntity } from '@game/entities/map/map.entity';
@@ -11,10 +10,9 @@ export class PlayerController {
   currentWalk?: string;
   speed = 1 / 10;
   constructor(
-    private playerState: GameState,
+    private gameState: GameState,
     private player: PlayerEntity,
     private keyListener: KeyListener,
-    private mapLoader: MapLoaderService,
     private playerCollider: PlayerCollider
   ) {}
 
@@ -25,6 +23,7 @@ export class PlayerController {
     if (state.presentItem) {
       return;
     }
+    this.player.state.ghost = this.keyListener.keys.debug;
     if (this.keyListener.keys.LEFT) {
       this.currentWalk = 'l';
       state.direction = 'LEFT';
@@ -71,9 +70,27 @@ export class PlayerController {
       return;
     }
 
-    this.playerState.map.entities
-      .filter(entity => this.playerCollider.collidesWithEntity(entity))
-      .forEach(entity => this.handleCollide(entity));
+    if (this.player.state.position.x < -0.5) {
+      this.player.state.position.x += 15.5;
+      const mapId = this.gameState.mapEntity.state.currentMapId;
+      const newMapId = (parseInt(mapId, 16) - 1).toString(16);
+      this.gameState.mapEntity.state.currentMapId = newMapId;
+    } else if (this.player.state.position.x > 15.5) {
+      this.player.state.position.x -= 15.5;
+      const mapId = this.gameState.mapEntity.state.currentMapId;
+      const newMapId = (parseInt(mapId, 16) + 1).toString(16);
+      this.gameState.mapEntity.state.currentMapId = newMapId;
+    } else if (this.player.state.position.y < -0.5) {
+      this.player.state.position.y += 11.5;
+      const mapId = this.gameState.mapEntity.state.currentMapId;
+      const newMapId = (parseInt(mapId, 16) - 16).toString(16);
+      this.gameState.mapEntity.state.currentMapId = newMapId;
+    } else if (this.player.state.position.y > 11.5) {
+      this.player.state.position.y -= 12;
+      const mapId = this.gameState.mapEntity.state.currentMapId;
+      const newMapId = (parseInt(mapId, 16) + 16).toString(16);
+      this.gameState.mapEntity.state.currentMapId = newMapId;
+    }
   }
 
   async handleCollide(entity: Entity): Promise<void> {
@@ -96,15 +113,14 @@ export class PlayerController {
       const t = entity.traits.find(t => t.name == 'portal');
       state.position.x = t?.payload.position.x;
       state.position.y = t?.payload.position.y;
-      this.playerState.map = await this.mapLoader.loadMap(t?.payload.map);
-      this.playerState.mapEntity = new MapEntity();
-      await this.playerState.mapEntity.load(this.playerState.map);
+      this.gameState.mapEntity = new MapEntity();
+      await this.gameState.mapEntity.load();
     }
     if (entity.traits.find(t => t.name === 'pickup')) {
       const t = entity.traits.find(t => t.name == 'pickup') as any;
-      if (!t?.payload.respawn && !(this.playerState.inventory as any)[t.payload.id]) {
+      if (!t?.payload.respawn && !(this.gameState.inventory as any)[t.payload.id]) {
         state.presentItem = { item: t.payload.id, timer: 1.5 };
-        (this.playerState.inventory as any)[t.payload.id] = true;
+        (this.gameState.inventory as any)[t.payload.id] = true;
       }
     }
   }

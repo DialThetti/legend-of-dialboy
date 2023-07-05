@@ -1,13 +1,11 @@
 import { MapEntity } from '../game/entities/map/map.entity';
 import { PlayerEntity } from '../game/entities/player/player.entity';
 import { Inventory } from '../models/inventory';
-import { MapDefinition } from '../models/map-def';
 import { Entity } from './entities/entity';
 
 export class GameState {
   player!: PlayerEntity;
   mapEntity!: MapEntity;
-  map!: MapDefinition;
   inventory: Inventory = { swordL1: false, rupees: 0, keys: 0, bombs: 0 };
 
   constructor() {
@@ -15,12 +13,11 @@ export class GameState {
     (window as any).setBombs = (i: number) => (this.inventory.bombs = i);
     (window as any).setKeys = (i: number) => (this.inventory.keys = i);
   }
-  isSolidTile(p: { x: number; y: number }) {
-    const tile = this.map.tiles[Math.floor(p.y)]?.[Math.floor(p.x)] ?? -1;
-    if (tile == -1) {
-      //   return true;
+  isSolidTile(p: { x: number; y: number }): boolean {
+    if (this.player.state.ghost) {
+      return false;
     }
-    return this.map.properties.solid.includes(tile);
+    return this.mapEntity.tileMap.getChunk(this.mapEntity.state.currentMapId).isSolid(p);
   }
   //TODO entities loaded here
 

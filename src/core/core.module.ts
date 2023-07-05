@@ -1,6 +1,5 @@
 import { SharedModule } from '../shared/shared.module';
 import { KeyListener } from './key-listener';
-import { MapLoaderService } from './map-loader.service';
 import { EntityCollider } from './entity-collider';
 import { PlayerController } from './player.controller';
 import { PlayerCollider } from './player-collider';
@@ -12,27 +11,17 @@ export class CoreModule {
   private static instance?: CoreModule;
 
   mapState = new GameState();
-  mapLoader = new MapLoaderService();
   private constructor(private sharedModule: SharedModule) {}
 
   async main(): Promise<void> {
-    let map7_7 = await this.mapLoader.loadMap('m7_7');
-
-    this.mapState.map = map7_7;
     const entityCollider = new EntityCollider();
     const kl = new KeyListener(this.sharedModule.loggerService);
     this.mapState.player = new PlayerEntity();
     await this.mapState.player.load();
     const playerCollider = new PlayerCollider(this.mapState, this.mapState.player, entityCollider);
-    const playerController = new PlayerController(
-      this.mapState,
-      this.mapState.player,
-      kl,
-      this.mapLoader,
-      playerCollider
-    );
+    const playerController = new PlayerController(this.mapState, this.mapState.player, kl, playerCollider);
     this.mapState.mapEntity = new MapEntity();
-    await this.mapState.mapEntity.load(this.mapState.map);
+    await this.mapState.mapEntity.load();
     kl.start();
     let last = Date.now();
     Timer.repeat((dT: number) => {
