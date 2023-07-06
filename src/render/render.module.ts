@@ -17,7 +17,6 @@ export class RenderModule {
     this.ctx.scale(1, 1);
     const hud = new HUDRenderer();
     await hud.load(this.core.mapState);
-    await this.core.mapState.load();
     Timer.repeat(async dT => {
       const entities = this.core.mapState.getEntities();
       const renderers = entities

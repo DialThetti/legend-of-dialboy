@@ -74,21 +74,25 @@ export class PlayerController {
       const mapId = this.gameState.mapEntity.state.currentMapId;
       const newMapId = (parseInt(mapId, 16) - 1).toString(16);
       this.gameState.mapEntity.state.currentMapId = newMapId;
+      await this.gameState.loadChunk(newMapId);
     } else if (this.player.state.position.x > 15.5) {
       this.player.state.position.x -= 15.5;
       const mapId = this.gameState.mapEntity.state.currentMapId;
       const newMapId = (parseInt(mapId, 16) + 1).toString(16);
       this.gameState.mapEntity.state.currentMapId = newMapId;
+      await this.gameState.loadChunk(newMapId);
     } else if (this.player.state.position.y < -0.5) {
       this.player.state.position.y += 11.5;
       const mapId = this.gameState.mapEntity.state.currentMapId;
       const newMapId = (parseInt(mapId, 16) - 16).toString(16);
       this.gameState.mapEntity.state.currentMapId = newMapId;
+      await this.gameState.loadChunk(newMapId);
     } else if (this.player.state.position.y > 11.5) {
       this.player.state.position.y -= 12;
       const mapId = this.gameState.mapEntity.state.currentMapId;
       const newMapId = (parseInt(mapId, 16) + 16).toString(16);
       this.gameState.mapEntity.state.currentMapId = newMapId;
+      await this.gameState.loadChunk(newMapId);
     }
   }
 

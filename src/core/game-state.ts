@@ -16,21 +16,26 @@ export class GameState {
     (window as any).setKeys = (i: number) => (this.inventory.keys = i);
   }
 
-  async load() {
-    let x = 5;
-    let y = 0;
-    for (let index = 0; index < 6; index++) {
-      const s = new SlimeEntity(this);
-      this.entities.push(s);
-      await s.load({
-        position: { x, y, z: 5 },
-        direction: 'DOWN',
-        color: ['GREEN', 'RED', 'BLUE', 'VIOLET'][Math.floor(Math.random() * 4)] as any,
-      });
-      x++;
-      if (x == 8) {
-        x = 5;
-        y++;
+  async load() {}
+
+  async loadChunk(id: string) {
+    this.entities = [];
+    if (id === '8d') {
+      let x = 5;
+      let y = 0;
+      for (let index = 0; index < 6; index++) {
+        const s = new SlimeEntity(this);
+        this.entities.push(s);
+        await s.load({
+          position: { x, y, z: 5 },
+          direction: 'DOWN',
+          color: ['GREEN', 'RED', 'BLUE', 'VIOLET'][Math.floor(Math.random() * 4)] as any,
+        });
+        x++;
+        if (x == 8) {
+          x = 5;
+          y++;
+        }
       }
     }
   }
