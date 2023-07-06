@@ -23,6 +23,7 @@ export class PlayerRenderer implements EntityRenderer {
           y: this.entity.state.position.y - 1.25,
           z: this.entity.state.position.z,
         },
+        direction: 'DOWN',
       });
       item.renderer.render(ctx, dT);
     } else {
@@ -30,15 +31,15 @@ export class PlayerRenderer implements EntityRenderer {
     }
     this.playerAnim.getSprite(aniId, dT).draw(ctx, {
       x: Math.floor(this.entity.state.position.x * 16),
-      y: Math.floor((4 + this.entity.state.position.y) * 16 - 6),
+      y: Math.floor((3 + this.entity.state.position.y) * 16 - 6),
     });
 
     if ((window as any).debug) {
       ctx.strokeStyle = 'blue';
 
-      ctx.strokeRect(this.entity.state.position.x * 16, 4 * 16 + this.entity.state.position.y * 16 - 6, 16, 16);
+      ctx.strokeRect(this.entity.state.position.x * 16, 3 * 16 + this.entity.state.position.y * 16 - 6, 16, 16);
       ctx.strokeStyle = 'red';
-      ctx.strokeRect(this.entity.state.position.x * 16 + 2, 4 * 16 + this.entity.state.position.y * 16, 12, 10);
+      ctx.strokeRect(this.entity.state.position.x * 16 + 2, 3 * 16 + this.entity.state.position.y * 16, 12, 10);
     }
   }
 }

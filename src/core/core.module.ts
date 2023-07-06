@@ -25,6 +25,7 @@ export class CoreModule {
     kl.start();
     let last = Date.now();
     Timer.repeat((dT: number) => {
+      this.mapState.getEntities().forEach(e => e.update(dT));
       playerController.update(dT);
     }).start();
   }

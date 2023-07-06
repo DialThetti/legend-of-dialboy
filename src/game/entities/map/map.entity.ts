@@ -15,6 +15,8 @@ export class MapEntity implements Entity {
     this.state = {
       position: { x: 0, y: 0, z: 0 },
       currentMapId: '8d',
+      direction: 'DOWN',
     };
   }
+  update(dt: number): void {}
 }

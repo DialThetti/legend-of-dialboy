@@ -69,7 +69,7 @@ export class Chunk implements Renderable {
     return meta;
   }
   isSolid(position: { x: number; y: number }): boolean {
-    const meta = this.getTilesAt({ x: Math.floor(position.x), y: Math.floor(position.y) + 1 });
+    const meta = this.getTilesAt({ x: Math.floor(position.x), y: Math.floor(position.y) });
 
     return meta.solid === true;
   }

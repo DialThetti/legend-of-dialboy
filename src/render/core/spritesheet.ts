@@ -15,6 +15,9 @@ export class SpriteSheet {
     });
   }
   getSprite(name: string): Sprite | undefined {
+    if (!name) {
+      debugger;
+    }
     if (!this.sprites[name]) {
       console.warn(name + ' not a sprite');
       return undefined;

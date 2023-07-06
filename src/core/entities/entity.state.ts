@@ -4,4 +4,5 @@ export interface EntityState {
     y: number;
     z: number;
   };
+  direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 }

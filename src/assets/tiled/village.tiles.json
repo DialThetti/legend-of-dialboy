@@ -78,7 +78,7 @@
                 {
                  "name":"solid",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -87,7 +87,7 @@
                 {
                  "name":"solid",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -294,7 +294,7 @@
                 {
                  "name":"solid",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -303,7 +303,7 @@
                 {
                  "name":"solid",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -510,7 +510,7 @@
                 {
                  "name":"solid",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -519,7 +519,7 @@
                 {
                  "name":"solid",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -726,7 +726,7 @@
                 {
                  "name":"solid",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -735,7 +735,7 @@
                 {
                  "name":"solid",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {

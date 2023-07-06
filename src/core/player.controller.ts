@@ -18,7 +18,6 @@ export class PlayerController {
 
   // TODO make speed intependend from FrameRate
   async update(dT: number) {
-    this.player.update(dT);
     const { state } = this.player;
     if (state.presentItem) {
       return;

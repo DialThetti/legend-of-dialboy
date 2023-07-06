@@ -18,7 +18,12 @@ export class Animation {
     if (this.timer >= ani.steps.length * ani.duration) {
       this.timer -= ani.steps.length * ani.duration;
     }
-    const idx = Math.floor(this.timer / ani.duration);
+    let idx;
+    if (ani.duration == 0) {
+      idx = 0;
+    } else {
+      idx = Math.floor(this.timer / ani.duration);
+    }
     const spriteId = ani.steps[idx];
     return this.spriteSheet.getSprite(spriteId) ?? (this.spriteSheet.getSprite(ani.steps[0]) as Sprite);
   }
