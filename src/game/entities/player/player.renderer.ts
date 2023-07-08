@@ -1,4 +1,4 @@
-import { Animation } from 'src/render/core/animation';
+import { Animation } from '../../render/core/animation';
 import { PlayerAnimation } from './player.animation';
 import { PlayerEntity } from './player.entity';
 import { ItemEntity } from '../item/item.entity';
@@ -27,7 +27,7 @@ export class PlayerRenderer implements EntityRenderer {
       });
       item.renderer.render(ctx, dT);
     } else {
-      aniId = (this.entity.state.step === 0 ? 'Stand' : '') + this.entity.state.direction;
+      aniId = this.entity.state.direction + '_' + (this.entity.state.step === 0 ? 'IDLE' : 'WALK');
     }
     this.playerAnim.getSprite(aniId, dT).draw(ctx, {
       x: Math.floor(this.entity.state.position.x * 16),

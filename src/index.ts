@@ -1,4 +1,3 @@
-import { TilesBasedMap } from './core/tiles/tilesbased-map';
-import { GameModule } from './game.module';
+import { GameModule } from './game/game.module';
 
 GameModule.get();

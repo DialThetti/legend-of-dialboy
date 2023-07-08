@@ -1,4 +1,3 @@
-import { Entity } from 'src/models/entity';
 import { EntityCollider } from './entity-collider';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { GameState } from './game-state';
@@ -35,21 +34,5 @@ export class PlayerCollider {
       );
     }
     return false;
-  }
-
-  collidesWithEntity(entity: Entity): boolean {
-    let { x, y } = this.player.state.position;
-    x *= 16;
-    y *= 16;
-    const ex = entity.position.x * 16;
-    const ey = entity.position.y * 16;
-
-    return this.entityCollider.collide(
-      { position: { x: x + 2, y }, size: { width: 12, height: 10 } },
-      {
-        position: { x: ex, y: ey },
-        size: entity.size,
-      }
-    );
   }
 }

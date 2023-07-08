@@ -1,8 +1,8 @@
-import { Animation } from 'src/render/core/animation';
-import { SpriteSheet } from 'src/render/core/spritesheet';
+import { Animation } from '../../render/core/animation';
+import { SpriteSheet } from '../../render/core/spritesheet';
 import { SlimeEntity } from './slime.entity';
-import DEFAULT_ANIMATION from '../../../render/core/ani.default.json';
-import DEFAULT_SPRITESHEET from '../../../render/core/spritesheet.default.json';
+import DEFAULT_ANIMATION from '../../render/core/ani.default.json';
+import DEFAULT_SPRITESHEET from '../../render/core/spritesheet.default.json';
 export class SlimeRenderer {
   anim!: Animation;
   constructor(private entity: SlimeEntity) {}
@@ -16,11 +16,13 @@ export class SlimeRenderer {
       }[this.entity.state.color],
       DEFAULT_SPRITESHEET
     );
-
     this.anim = new Animation(spritesheet, DEFAULT_ANIMATION as any);
   }
 
   async render(ctx: CanvasRenderingContext2D, dT: number) {
+    if (!this.anim) {
+      return;
+    }
     this.anim
       .getSprite(
         this.entity.state.direction + '_' + (this.entity.state.stepTimer > 0 ? 'WALK' : 'IDLE'),

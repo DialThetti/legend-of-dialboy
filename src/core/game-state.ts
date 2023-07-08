@@ -1,7 +1,6 @@
 import { MapEntity } from '../game/entities/map/map.entity';
 import { PlayerEntity } from '../game/entities/player/player.entity';
 import { SlimeEntity } from '../game/entities/slime/slime.entity';
-import { Inventory } from '../models/inventory';
 import { Entity } from './entities/entity';
 
 export class GameState {
@@ -24,12 +23,15 @@ export class GameState {
       let x = 5;
       let y = 0;
       for (let index = 0; index < 6; index++) {
+        const color = ['GREEN', 'RED', 'BLUE', 'VIOLET'][Math.floor(Math.random() * 4)];
         const s = new SlimeEntity(this);
         this.entities.push(s);
         await s.load({
           position: { x, y, z: 5 },
           direction: 'DOWN',
-          color: ['GREEN', 'RED', 'BLUE', 'VIOLET'][Math.floor(Math.random() * 4)] as any,
+          color: color as any,
+          speed: { GREEN: 1, RED: 1.5, BLUE: 2, VIOLET: 3 }[color] ?? 1,
+          sleepTime: { GREEN: 1, RED: 0.75, BLUE: 0.5, VIOLET: 0 }[color] ?? 1,
         });
         x++;
         if (x == 8) {
@@ -54,4 +56,11 @@ export class GameState {
   getEntities(): Entity[] {
     return [this.mapEntity, this.player, ...this.entities];
   }
+}
+
+export interface Inventory {
+  swordL1: boolean;
+  rupees: number;
+  keys: number;
+  bombs: number;
 }

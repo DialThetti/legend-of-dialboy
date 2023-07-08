@@ -1,14 +1,14 @@
-import { Entity } from 'src/models/entity';
 import { KeyListener } from './key-listener';
 import { GameState } from './game-state';
 import { PlayerCollider } from './player-collider';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { MapEntity } from '@game/entities/map/map.entity';
+import { Entity } from './entities/entity';
 
 export class PlayerController {
   blockTrigger = false;
   currentWalk?: string;
-  speed = 1 / 10;
+  speed = 1 / 15;
   constructor(
     private gameState: GameState,
     private player: PlayerEntity,
@@ -93,38 +93,6 @@ export class PlayerController {
       const newMapId = (parseInt(mapId, 16) + 16).toString(16);
       this.gameState.mapEntity.state.currentMapId = newMapId;
       await this.gameState.loadChunk(newMapId);
-    }
-  }
-
-  async handleCollide(entity: Entity): Promise<void> {
-    const { state } = this.player;
-    if (entity.traits.find(t => t.name === 'solid')) {
-      if (this.currentWalk === 'l') {
-        state.position.x += this.speed;
-      }
-      if (this.currentWalk === 'r') {
-        state.position.x -= this.speed;
-      }
-      if (this.currentWalk === 'u') {
-        state.position.y += this.speed;
-      }
-      if (this.currentWalk === 'd') {
-        state.position.y -= this.speed;
-      }
-    }
-    if (entity.traits.find(t => t.name == 'portal')) {
-      const t = entity.traits.find(t => t.name == 'portal');
-      state.position.x = t?.payload.position.x;
-      state.position.y = t?.payload.position.y;
-      this.gameState.mapEntity = new MapEntity();
-      await this.gameState.mapEntity.load();
-    }
-    if (entity.traits.find(t => t.name === 'pickup')) {
-      const t = entity.traits.find(t => t.name == 'pickup') as any;
-      if (!t?.payload.respawn && !(this.gameState.inventory as any)[t.payload.id]) {
-        state.presentItem = { item: t.payload.id, timer: 1.5 };
-        (this.gameState.inventory as any)[t.payload.id] = true;
-      }
     }
   }
 }

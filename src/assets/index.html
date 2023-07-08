@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
     <script type="module" src="./index.js"></script>
 </head>
 
 <body>
-  <h1>The Myth of Princess</h1>
     <canvas id="screen" height="240" width="256"></canvas>
     <div id="img-reg"></div>
 </body>
@@ -19,6 +17,19 @@
     #img-reg{
       display: none;
     }
-   canvas{ background: #eee; display: block; margin: 0 auto;}
+    body {
+      background: #000;
+      margin: 0;
+    }
+
+    #screen {
+      display: block;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-crisp-edges;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      height: 100vh;
+      margin: auto;
+    }
 </style>
 </html>

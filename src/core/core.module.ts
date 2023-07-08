@@ -1,9 +1,9 @@
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../game/shared/shared.module';
 import { KeyListener } from './key-listener';
 import { EntityCollider } from './entity-collider';
 import { PlayerController } from './player.controller';
 import { PlayerCollider } from './player-collider';
-import { Timer } from 'src/shared/clock';
+import { Timer } from '@game/shared/clock';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { MapEntity } from '@game/entities/map/map.entity';
 import { GameState } from './game-state';
