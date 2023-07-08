@@ -1,6 +1,5 @@
-import { SharedModule } from '../game/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { KeyListener } from './key-listener';
-import { EntityCollider } from './entity-collider';
 import { PlayerController } from './player.controller';
 import { PlayerCollider } from './player-collider';
 import { Timer } from '@game/shared/clock';
@@ -14,11 +13,10 @@ export class CoreModule {
   private constructor(private sharedModule: SharedModule) {}
 
   async main(): Promise<void> {
-    const entityCollider = new EntityCollider();
     const kl = new KeyListener(this.sharedModule.loggerService);
     this.mapState.player = new PlayerEntity();
     await this.mapState.player.load();
-    const playerCollider = new PlayerCollider(this.mapState, this.mapState.player, entityCollider);
+    const playerCollider = new PlayerCollider(this.mapState, this.mapState.player);
     const playerController = new PlayerController(this.mapState, this.mapState.player, kl, playerCollider);
     this.mapState.mapEntity = new MapEntity();
     await this.mapState.mapEntity.load();

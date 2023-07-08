@@ -1,4 +1,4 @@
-import { EntityState } from '../../../core/entities/entity.state';
+import { EntityState } from '@game/core/entities/entity.state';
 
 export interface PlayerState extends EntityState {
   step: number;
@@ -8,4 +8,5 @@ export interface PlayerState extends EntityState {
     timer: number;
   };
   ghost: boolean;
+  speed: number;
 }

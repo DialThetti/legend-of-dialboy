@@ -1,4 +1,4 @@
-import { loadImage } from '@core/load';
+import { loadImage } from '@game/core/load';
 
 export interface Rect {
   x: number;

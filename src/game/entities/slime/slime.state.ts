@@ -1,8 +1,7 @@
-import { EntityState } from '../../../core/entities/entity.state';
+import { EntityState } from '@game/core/entities/entity.state';
 
 export interface SlimeState extends EntityState {
   stepTimer: number;
-  velocity: { x: number; y: number };
   currentSleepTime: number;
   sleepTime: number;
   speed: number;

@@ -1,4 +1,4 @@
-import { loadImage } from '@core/load';
+import { loadImage } from '@game/core/load';
 import { MapEntity } from './map.entity';
 
 export class MapRenderer {

@@ -2,8 +2,6 @@ import { KeyListener } from './key-listener';
 import { GameState } from './game-state';
 import { PlayerCollider } from './player-collider';
 import { PlayerEntity } from '@game/entities/player/player.entity';
-import { MapEntity } from '@game/entities/map/map.entity';
-import { Entity } from './entities/entity';
 
 export class PlayerController {
   blockTrigger = false;

@@ -1,4 +1,4 @@
-import { LoggerService } from '../game/shared/logger.service';
+import { LoggerService } from '../shared/logger.service';
 
 export class KeyListener {
   keys = {

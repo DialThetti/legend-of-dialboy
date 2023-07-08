@@ -1,4 +1,4 @@
-import { CoreModule } from '@core/core.module';
+import { CoreModule } from '@game/core/core.module';
 import { SharedModule } from '@game/shared/shared.module';
 import { Timer } from '@game/shared/clock';
 import { HUDRenderer } from './hud.renderer';

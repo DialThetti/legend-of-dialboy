@@ -7,7 +7,6 @@ export class AStar {
     const grid = this.buildGrid();
     this.setStep({ x: Math.round(target.x), y: Math.round(target.y) }, grid, 0);
     const path = this.gridToPath(grid, start);
-    console.log(path);
     return path.map(p => ({ x: p.x - start.x, y: p.y - start.y }));
   }
 

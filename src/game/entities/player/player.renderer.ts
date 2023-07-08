@@ -2,7 +2,7 @@ import { Animation } from '../../render/core/animation';
 import { PlayerAnimation } from './player.animation';
 import { PlayerEntity } from './player.entity';
 import { ItemEntity } from '../item/item.entity';
-import { EntityRenderer } from '../../../core/entities/entity.renderer';
+import { EntityRenderer } from '@game/core/entities/entity.renderer';
 
 export class PlayerRenderer implements EntityRenderer {
   playerAnim!: Animation;
@@ -23,6 +23,7 @@ export class PlayerRenderer implements EntityRenderer {
           y: this.entity.state.position.y - 1.25,
           z: this.entity.state.position.z,
         },
+        velocity: { x: 0, y: 0 },
         direction: 'DOWN',
       });
       item.renderer.render(ctx, dT);

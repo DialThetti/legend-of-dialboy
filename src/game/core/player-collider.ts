@@ -1,9 +1,8 @@
-import { EntityCollider } from './entity-collider';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { GameState } from './game-state';
 
 export class PlayerCollider {
-  constructor(private playerState: GameState, private player: PlayerEntity, private entityCollider: EntityCollider) {}
+  constructor(private playerState: GameState, private player: PlayerEntity) {}
 
   collidesWithTile(x: number, y: number): boolean {
     const pRect = {

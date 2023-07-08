@@ -1,7 +1,7 @@
 import { MapRenderer } from './map.renderer';
 import { MapState } from './map.state';
-import { Entity } from '../../../core/entities/entity';
-import { TilesBasedMap } from '../../../core/tiles/tilesbased-map';
+import { Entity } from '@game/core/entities/entity';
+import { TilesBasedMap } from '@game/core/tiles/tilesbased-map';
 
 export class MapEntity implements Entity {
   state!: MapState;
@@ -15,6 +15,7 @@ export class MapEntity implements Entity {
     this.state = {
       position: { x: 0, y: 0, z: 0 },
       currentMapId: '8d',
+      velocity: { x: 0, y: 0 },
       direction: 'DOWN',
     };
   }

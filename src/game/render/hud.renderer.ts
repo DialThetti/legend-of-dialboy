@@ -1,4 +1,4 @@
-import { GameState } from '../../core/game-state';
+import { GameState } from '@game/core/game-state';
 import { SpriteSheet } from './core/spritesheet';
 
 export class HUDRenderer {
