@@ -1,3 +1,4 @@
+import BoundingBox from '../../core/math/rectangle';
 import { MapRenderer } from './map.renderer';
 import { MapState } from './map.state';
 import { Entity } from '@game/core/entities/entity';
@@ -20,4 +21,7 @@ export class MapEntity implements Entity {
     };
   }
   update(dt: number): void {}
+  get hitBox(): BoundingBox {
+    return new BoundingBox({ x: 0, y: 0 }, { x: 0, y: 0 });
+  }
 }

@@ -1,7 +1,6 @@
 import { SharedModule } from '../shared/shared.module';
 import { KeyListener } from './key-listener';
 import { PlayerController } from './player.controller';
-import { PlayerCollider } from './player-collider';
 import { Timer } from '@game/shared/clock';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { MapEntity } from '@game/entities/map/map.entity';
@@ -14,10 +13,9 @@ export class CoreModule {
 
   async main(): Promise<void> {
     const kl = new KeyListener(this.sharedModule.loggerService);
-    this.mapState.player = new PlayerEntity();
+    this.mapState.player = new PlayerEntity(this.mapState);
     await this.mapState.player.load();
-    const playerCollider = new PlayerCollider(this.mapState, this.mapState.player);
-    const playerController = new PlayerController(this.mapState, this.mapState.player, kl, playerCollider);
+    const playerController = new PlayerController(this.mapState, this.mapState.player, kl);
     this.mapState.mapEntity = new MapEntity();
     await this.mapState.mapEntity.load();
     await this.mapState.loadChunk(this.mapState.mapEntity.state.currentMapId);

@@ -34,6 +34,11 @@ export class KeyListener {
         break;
       case '<':
         this.keys.debug = !this.keys.debug;
+        if (this.keys.debug) {
+          (window as any).debug = 1;
+        } else {
+          delete (window as any).debuga;
+        }
         break;
       default:
         this.loggerService.log(event.key);

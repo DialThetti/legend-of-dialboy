@@ -40,7 +40,13 @@ export class PlayerRenderer implements EntityRenderer {
 
       ctx.strokeRect(this.entity.state.position.x * 16, 3 * 16 + this.entity.state.position.y * 16 - 6, 16, 16);
       ctx.strokeStyle = 'red';
-      ctx.strokeRect(this.entity.state.position.x * 16 + 2, 3 * 16 + this.entity.state.position.y * 16, 12, 10);
+      ctx.strokeRect(
+        this.entity.hitBox.left * 16,
+        3 * 16 + this.entity.hitBox.top * 16,
+        16 * this.entity.hitBox.size.x,
+        16 * this.entity.hitBox.size.y
+      );
+      this.entity.tileCollider.render(ctx);
     }
   }
 }
