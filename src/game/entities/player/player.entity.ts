@@ -5,6 +5,7 @@ import { PlayerState } from './player.state';
 import BoundingBox from '../../core/math/rectangle';
 import { TileCollider } from '../../core/tile-collider';
 import { GameState } from '../../core/game-state';
+import { Point2d } from '../../core/math/point-2d';
 
 export class PlayerEntity implements Entity {
   state!: PlayerState;
@@ -24,24 +25,57 @@ export class PlayerEntity implements Entity {
       step: 0,
       speed: 3,
       ghost: false,
+      forcedWay: 0,
+      entityGhost: 0,
     };
   }
   async update(dT: number) {
+    if (this.state.entityGhost >= 0) {
+      this.state.entityGhost -= dT;
+    }
     if (this.state.presentItem) {
       this.state.presentItem.timer -= dT;
       if (this.state.presentItem.timer <= 0) {
         delete this.state.presentItem;
       }
     }
-    this.state.position.x += this.state.velocity.x * this.state.speed * dT;
-    this.state.position.y += this.state.velocity.y * this.state.speed * dT;
-    if (this.tileCollider.collidesWithTiles(this).length > 0) {
-      this.state.position.x -= this.state.velocity.x * this.state.speed * dT;
-      this.state.position.y -= this.state.velocity.y * this.state.speed * dT;
+    if (this.state.forcedWay > 0) {
+      this.state.forcedWay -= dT;
+      if (!this.move(5, dT)) {
+        this.state.forcedWay = -1;
+      }
+      if (this.state.forcedWay < 0) {
+        this.state.velocity = { x: 0, y: 0 };
+        this.state.forcedWay = 0;
+      }
+    } else {
+      this.move(this.state.speed, dT);
     }
   }
 
+  move(speed: number, dT: number): boolean {
+    this.state.position.x += this.state.velocity.x * speed * dT;
+    this.state.position.y += this.state.velocity.y * speed * dT;
+    this.state.position.x = Math.round(this.state.position.x * 16) / 16;
+    this.state.position.y = Math.round(this.state.position.y * 16) / 16;
+    if (this.tileCollider.collidesWithTiles(this).length > 0) {
+      this.state.position.x -= this.state.velocity.x * speed * dT;
+      this.state.position.y -= this.state.velocity.y * speed * dT;
+      this.state.position.x = Math.round(this.state.position.x * 16) / 16;
+      this.state.position.y = Math.round(this.state.position.y * 16) / 16;
+      return false;
+    }
+    return true;
+  }
   get hitBox(): BoundingBox {
     return new BoundingBox(this.state.position, { x: 12 / 16, y: 12 / 16 }, { x: 6 / 16, y: 2 / 16 });
+  }
+  hit(dmg: number, direction: Point2d) {
+    if (this.state.entityGhost > 0) {
+      return;
+    }
+    this.state.velocity = direction;
+    this.state.forcedWay = 0.1;
+    this.state.entityGhost = 1;
   }
 }

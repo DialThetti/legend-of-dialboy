@@ -9,4 +9,6 @@ export interface PlayerState extends EntityState {
   };
   ghost: boolean;
   speed: number;
+  forcedWay: number;
+  entityGhost: number;
 }

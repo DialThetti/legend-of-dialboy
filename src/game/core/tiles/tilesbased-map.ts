@@ -1,7 +1,7 @@
 import { loadJson } from '../load';
 import { Renderable } from './renderable';
 import { Tileset } from './tileset';
-import { InfiniteTmxLayer, InfiniteTmxModel, TmxChunk, isInfiniteLayer } from './tileset.map.model';
+import { InfiniteTmxLayer, InfiniteTmxModel, TmxChunk, TmxLayer, isInfiniteLayer } from './tileset.map.model';
 
 export class TilesBasedMap {
   private constructor(private definitionFile: InfiniteTmxModel, public tilesets: Tileset[]) {}
@@ -14,7 +14,7 @@ export class TilesBasedMap {
   getChunk(hex: string, top: boolean = false): Chunk {
     const position = this.mapIdToPosition(hex);
     const chunk = this.definitionFile.layers
-      .filter(layer => layer.visible)
+
       .map(layer => {
         if (isInfiniteLayer(layer as any)) {
           return (layer as InfiniteTmxLayer).chunks.filter(c => c.x === position.x && c.y === position.y);
@@ -34,7 +34,14 @@ export class TilesBasedMap {
     const tilesets = await Promise.all(
       definitionFile.tilesets.map(async tileset => await Tileset.load(dir + '/' + tileset.source, tileset.firstgid))
     );
-    return new TilesBasedMap(definitionFile, tilesets);
+    const getZ = (l: any) => l.properties.find((p: { name: string }) => p.name === 'zindex')?.value as number;
+    return new TilesBasedMap(
+      {
+        ...definitionFile,
+        layers: definitionFile.layers.filter(l => l.visible).sort((l1, l2) => getZ(l1) - getZ(l2)),
+      },
+      tilesets
+    );
   }
 }
 

@@ -30,11 +30,14 @@ export class PlayerRenderer implements EntityRenderer {
     } else {
       aniId = this.entity.state.direction + '_' + (this.entity.state.step === 0 ? 'IDLE' : 'WALK');
     }
+    if (this.entity.state.entityGhost >= 0) {
+      ctx.filter = 'sepia(100%)';
+    }
     this.playerAnim.getSprite(aniId, dT).draw(ctx, {
       x: Math.floor(this.entity.state.position.x * 16),
       y: Math.floor((3 + this.entity.state.position.y) * 16 - 6),
     });
-
+    ctx.filter = 'none';
     if ((window as any).debug) {
       ctx.strokeStyle = 'blue';
 

@@ -9,32 +9,26 @@ export class TileCollider {
   collidesWithTiles(entity: Entity): Point2d[] {
     let possibleTiles: Point2d[] = [];
     const { top, bottom, left, right } = entity.hitBox;
-    switch (entity.state.direction) {
-      case 'UP':
-        possibleTiles = [
-          { x: Math.floor(left), y: Math.floor(top) },
-          { x: Math.floor(right), y: Math.floor(top) },
-        ];
-        break;
-      case 'DOWN':
-        possibleTiles = [
-          { x: Math.floor(left), y: Math.floor(bottom) },
-          { x: Math.floor(right), y: Math.floor(bottom) },
-        ];
-        break;
-      case 'LEFT':
-        possibleTiles = [
-          { x: Math.floor(left), y: Math.floor(top) },
-          { x: Math.floor(left), y: Math.floor(bottom) },
-        ];
-        break;
-      case 'RIGHT':
-        possibleTiles = [
-          { x: Math.floor(right), y: Math.floor(top) },
-          { x: Math.floor(right), y: Math.floor(bottom) },
-        ];
-        break;
-    }
+    if (entity.state.velocity.y < 0)
+      possibleTiles = [
+        { x: Math.floor(left), y: Math.floor(top) },
+        { x: Math.floor(right), y: Math.floor(top) },
+      ];
+    else if (entity.state.velocity.y > 0)
+      possibleTiles = [
+        { x: Math.floor(left), y: Math.floor(bottom) },
+        { x: Math.floor(right), y: Math.floor(bottom) },
+      ];
+    else if (entity.state.velocity.x < 0)
+      possibleTiles = [
+        { x: Math.floor(left), y: Math.floor(top) },
+        { x: Math.floor(left), y: Math.floor(bottom) },
+      ];
+    else if (entity.state.velocity.x > 0)
+      possibleTiles = [
+        { x: Math.floor(right), y: Math.floor(top) },
+        { x: Math.floor(right), y: Math.floor(bottom) },
+      ];
     this.t = possibleTiles.filter(p => this.gameState.isSolidTile(p));
     return this.t;
   }

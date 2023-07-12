@@ -19,6 +19,9 @@ export class PlayerController {
   }
 
   private setMovementByKeys(state: PlayerState) {
+    if (state.forcedWay != 0) {
+      return;
+    }
     if (this.keyListener.keys.LEFT) {
       state.direction = 'LEFT';
       state.velocity = { x: -1, y: 0 };

@@ -77,6 +77,7 @@ export interface TmxObjectLayer {
   visible: boolean;
   x: number;
   y: number;
+  properties: { name: string; type: string; value: unknown }[];
 }
 
 export function isInfiniteLayer(layer: TmxLayer): layer is InfiniteTmxLayer {

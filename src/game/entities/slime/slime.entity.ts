@@ -6,6 +6,7 @@ import { SlimeRenderer } from './slime.renderer';
 import { SlimeState } from './slime.state';
 import { SlimeMovementAI } from './slime-move.ai';
 import BoundingBox from '../../core/math/rectangle';
+import { Math2d } from '../../core/math/math-2d';
 
 export class SlimeEntity {
   state!: SlimeState;
@@ -31,6 +32,9 @@ export class SlimeEntity {
     if (this.hitBox.overlaps(this.gameState.player.hitBox)) {
       //TODO damage logic
       console.log('pompf');
+      const p = this.gameState.player.state.position;
+      const e = this.state.position;
+      this.gameState.player.hit(0, Math2d.norm({ x: p.x - e.x, y: p.y - e.y }));
     }
   }
 
