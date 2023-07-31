@@ -23,7 +23,7 @@ export class GameState {
     if (id === '8d') {
       let x = 5;
       let y = 0;
-      for (let index = 0; index < 1; index++) {
+      for (let index = 0; index < 0; index++) {
         const color = ['GREEN', 'RED', 'BLUE', 'VIOLET'][Math.floor(Math.random() * 4)];
         const s = new SlimeEntity(this);
         this.entities.push(s);

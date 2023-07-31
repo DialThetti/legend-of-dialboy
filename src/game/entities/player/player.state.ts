@@ -1,4 +1,5 @@
 import { EntityState } from '@game/core/entities/entity.state';
+import BoundingBox from '../../core/math/rectangle';
 
 export interface PlayerState extends EntityState {
   step: number;
@@ -11,4 +12,8 @@ export interface PlayerState extends EntityState {
   speed: number;
   forcedWay: number;
   entityGhost: number;
+  attack?: {
+    timer: number;
+    area: BoundingBox[];
+  };
 }

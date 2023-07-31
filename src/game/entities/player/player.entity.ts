@@ -30,6 +30,19 @@ export class PlayerEntity implements Entity {
     };
   }
   async update(dT: number) {
+    if (this.state.attack) {
+      this.state.attack.timer -= dT;
+      this.gameState.entities.forEach(e =>
+        this.state.attack?.area.forEach(a => {
+          if (e.hitBox.overlaps(a)) {
+            (e as any).damage?.();
+          }
+        })
+      );
+      if (this.state.attack.timer <= 0) {
+        delete this.state.attack;
+      }
+    }
     if (this.state.entityGhost >= 0) {
       this.state.entityGhost -= dT;
     }
@@ -49,11 +62,13 @@ export class PlayerEntity implements Entity {
         this.state.forcedWay = 0;
       }
     } else {
-      this.move(this.state.speed, dT);
+      if (!this.state.attack) {
+        this.move(this.state.speed, dT);
+      }
     }
   }
 
-  move(speed: number, dT: number): boolean {
+  async move(speed: number, dT: number): Promise<boolean> {
     this.state.position.x += this.state.velocity.x * speed * dT;
     this.state.position.y += this.state.velocity.y * speed * dT;
     this.state.position.x = Math.round(this.state.position.x * 16) / 16;
@@ -65,6 +80,9 @@ export class PlayerEntity implements Entity {
       this.state.position.y = Math.round(this.state.position.y * 16) / 16;
       return false;
     }
+
+    //event detection
+    const e = this.gameState.mapEntity.collidesWithEvent(this);
     return true;
   }
   get hitBox(): BoundingBox {

@@ -38,6 +38,11 @@ export class PlayerRenderer implements EntityRenderer {
       y: Math.floor((3 + this.entity.state.position.y) * 16 - 6),
     });
     ctx.filter = 'none';
+    if (this.entity.state.attack) {
+      this.entity.state.attack.area.forEach(b => {
+        ctx.strokeRect(b.left * 16, 3 * 16 + b.top * 16, 16 * b.size.x, 16 * b.size.y);
+      });
+    }
     if ((window as any).debug) {
       ctx.strokeStyle = 'blue';
 

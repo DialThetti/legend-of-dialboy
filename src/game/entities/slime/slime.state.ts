@@ -6,4 +6,5 @@ export interface SlimeState extends EntityState {
   sleepTime: number;
   speed: number;
   color: 'GREEN' | 'RED' | 'BLUE' | 'VIOLET';
+  dead: boolean;
 }

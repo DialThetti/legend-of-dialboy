@@ -22,12 +22,16 @@ export class SlimeEntity {
       speed: 1,
       color: state.color ?? 'GREEN',
       ...state,
+      dead: false,
     };
     this.renderer = new SlimeRenderer(this);
     await this.renderer.load();
   }
 
   update(dT: number) {
+    if (this.state.dead) {
+      return;
+    }
     SlimeEntity.slimeMovementAI.update(dT, this.state, this.gameState);
     if (this.hitBox.overlaps(this.gameState.player.hitBox)) {
       //TODO damage logic
@@ -40,5 +44,8 @@ export class SlimeEntity {
 
   get hitBox(): BoundingBox {
     return new BoundingBox(this.state.position, { x: 1, y: 1 });
+  }
+  damage() {
+    this.state.dead = true;
   }
 }

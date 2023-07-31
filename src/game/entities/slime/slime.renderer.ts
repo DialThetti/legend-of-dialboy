@@ -20,6 +20,9 @@ export class SlimeRenderer {
   }
 
   async render(ctx: CanvasRenderingContext2D, dT: number) {
+    if (this.entity.state.dead) {
+      return;
+    }
     if (!this.anim) {
       return;
     }

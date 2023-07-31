@@ -2,6 +2,8 @@ import { KeyListener } from './key-listener';
 import { GameState } from './game-state';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { PlayerState } from '../entities/player/player.state';
+import BoundingBox from './math/rectangle';
+import { Math2d } from './math/math-2d';
 
 export class PlayerController {
   blockTrigger = false;
@@ -46,6 +48,37 @@ export class PlayerController {
     }
     if (state.step > 10) {
       state.step -= 10;
+    }
+
+    if (this.keyListener.keys.A) {
+      let s = { x: 0, y: 0 };
+      let o = { x: 0, y: 0 };
+      switch (this.player.state.direction) {
+        case 'RIGHT':
+          o = { x: 1, y: 0 };
+          break;
+        case 'LEFT':
+          s = { x: -1, y: 0 };
+          o = { x: 1, y: 0 };
+          break;
+        case 'UP':
+          s = { x: 0, y: -1 };
+          o = { x: 0, y: 1 };
+          break;
+        case 'DOWN':
+          o = { x: 0, y: 1 };
+          break;
+      }
+      state.attack = {
+        timer: 0.5,
+        area: [
+          new BoundingBox(
+            Math2d.add(this.player.state.position, s),
+            Math2d.add({ x: this.player.hitBox.size.x, y: this.player.hitBox.size.y }, o),
+            this.player.hitBox.offset
+          ),
+        ],
+      };
     }
   }
 

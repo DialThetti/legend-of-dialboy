@@ -1,11 +1,20 @@
 import { loadJson } from '../load';
+import BoundingBox from '../math/rectangle';
 import { Renderable } from './renderable';
 import { Tileset } from './tileset';
-import { InfiniteTmxLayer, InfiniteTmxModel, TmxChunk, TmxLayer, isInfiniteLayer } from './tileset.map.model';
+import {
+  InfiniteTmxLayer,
+  InfiniteTmxModel,
+  TmxChunk,
+  TmxLayer,
+  TmxObject,
+  TmxObjectLayer,
+  isInfiniteLayer,
+} from './tileset.map.model';
 
 export class TilesBasedMap {
   private constructor(private definitionFile: InfiniteTmxModel, public tilesets: Tileset[]) {}
-  private mapIdToPosition(hex: string): { x: number; y: number } {
+  mapIdToPosition(hex: string): { x: number; y: number } {
     const id = parseInt(hex, 16);
     let y = Math.floor(id / 16);
     let x = id - y * 16;
@@ -13,8 +22,10 @@ export class TilesBasedMap {
   }
   getChunk(hex: string, top: boolean = false): Chunk {
     const position = this.mapIdToPosition(hex);
+
     const chunk = this.definitionFile.layers
 
+      .filter(layer => (top ? layer.name === 'top' : layer.name !== 'top'))
       .map(layer => {
         if (isInfiniteLayer(layer as any)) {
           return (layer as InfiniteTmxLayer).chunks.filter(c => c.x === position.x && c.y === position.y);
@@ -25,7 +36,16 @@ export class TilesBasedMap {
       .filter(c => !!c)
       .map(l => (l as TmxChunk[]).map(c => c.data))
       .map(c => c.flatMap((a, b) => [...a, b], []));
-    return new Chunk(chunk, this);
+    const events = ((this.definitionFile.layers.find(e => e.type === 'objectgroup') as TmxObjectLayer)?.objects ?? [])
+      .map(o => {
+        return { ...o, x: o.x / 16 - position.x, y: o.y / 16 - position.y, width: o.width / 16, height: o.height / 16 };
+      })
+      .filter(o => {
+        return new BoundingBox({ x: o.x, y: o.y }, { x: o.width, y: o.height }).overlaps(
+          new BoundingBox({ x: 0, y: 0 }, { x: 16, y: 12 })
+        );
+      });
+    return new Chunk(chunk, this, events);
   }
 
   public static async load(src: string): Promise<TilesBasedMap> {
@@ -38,7 +58,14 @@ export class TilesBasedMap {
     return new TilesBasedMap(
       {
         ...definitionFile,
-        layers: definitionFile.layers.filter(l => l.visible).sort((l1, l2) => getZ(l1) - getZ(l2)),
+        layers: [
+          ...definitionFile.layers
+            .filter(l => l.visible)
+            .filter(l => l.type === 'tilelayer')
+            .sort((l1, l2) => getZ(l1) - getZ(l2)),
+
+          ...definitionFile.layers.filter(t => t.type === 'objectgroup'),
+        ],
       },
       tilesets
     );
@@ -46,7 +73,7 @@ export class TilesBasedMap {
 }
 
 export class Chunk implements Renderable {
-  constructor(private data: number[][], private parent: TilesBasedMap) {}
+  constructor(private data: number[][], private parent: TilesBasedMap, public obj: TmxObject[]) {}
 
   draw(ctx: CanvasRenderingContext2D, position: { x: number; y: number }) {
     for (let layer = 0; layer < this.data.length; layer++) {

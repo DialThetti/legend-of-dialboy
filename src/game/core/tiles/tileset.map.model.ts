@@ -60,18 +60,7 @@ export interface TmxObjectLayer {
   draworder: 'topdown';
   id: number;
   name: string;
-  objects: {
-    height: number;
-    id: number;
-    name: string;
-    rotation: number;
-    type: string;
-    visible: boolean;
-    width: number;
-    x: number;
-    y: number;
-    properties: { name: string; type: string; value: unknown }[];
-  }[];
+  objects: TmxObject[];
   opacity: number;
   type: 'objectgroup';
   visible: boolean;
@@ -80,6 +69,18 @@ export interface TmxObjectLayer {
   properties: { name: string; type: string; value: unknown }[];
 }
 
+export interface TmxObject {
+  height: number;
+  id: number;
+  name: string;
+  rotation: number;
+  type: string;
+  visible: boolean;
+  width: number;
+  x: number;
+  y: number;
+  properties: { name: string; type: string; value: unknown }[];
+}
 export function isInfiniteLayer(layer: TmxLayer): layer is InfiniteTmxLayer {
   return 'chunks' in layer;
 }

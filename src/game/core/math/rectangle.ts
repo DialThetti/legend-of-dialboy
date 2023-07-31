@@ -1,7 +1,7 @@
 import { Point2d } from './point-2d';
 
 export default class BoundingBox {
-  constructor(public pos: Point2d, public size: Point2d, private offset: Point2d = { x: 0, y: 0 }) {}
+  constructor(public pos: Point2d, public size: Point2d, public offset: Point2d = { x: 0, y: 0 }) {}
 
   overlaps(box: BoundingBox): boolean {
     return this.bottom > box.top && this.top < box.bottom && this.left < box.right && this.right > box.left;

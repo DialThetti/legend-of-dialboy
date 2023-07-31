@@ -24,6 +24,7 @@ export class RenderModule {
       for (const re of renderers) {
         await re.render(this.ctx, dT);
       }
+      this.core.mapState.mapEntity.renderer.renderTop(this.ctx, dT);
 
       if ((window as any).debug) {
         for (let x = 0; x < 16; x++) {
