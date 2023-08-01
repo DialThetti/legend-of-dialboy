@@ -18,7 +18,7 @@ export class CoreModule {
     const playerController = new PlayerController(this.mapState, this.mapState.player, kl);
     this.mapState.mapEntity = new MapEntity(this.mapState);
     await this.mapState.mapEntity.load();
-    await this.mapState.loadChunk(this.mapState.mapEntity.state.currentMapId);
+    await this.mapState.mapEntity.loadChunk();
     kl.start();
     let last = Date.now();
     Timer.repeat((dT: number) => {

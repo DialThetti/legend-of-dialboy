@@ -18,10 +18,6 @@ export class GameState {
 
   async load() {}
 
-  async loadChunk(id: string) {
-    await this.mapEntity.loadChunk();
-  }
-
   isSolidTile(p: { x: number; y: number }): boolean {
     if (this.player.state.ghost) {
       return false;
