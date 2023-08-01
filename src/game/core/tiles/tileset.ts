@@ -24,7 +24,7 @@ export class Tileset {
    */
   public static async load(src: string, firstId: number): Promise<Tileset> {
     const definitionFile = await loadJson<TilesTilesetDefinition>(src);
-    const image = await loadImage(definitionFile.image);
+    const image = await loadImage('./tiles/' + definitionFile.image);
     return new Tileset(image, definitionFile, firstId);
   }
 }
