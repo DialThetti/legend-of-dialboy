@@ -3,36 +3,35 @@ const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
-    mode: 'production',
+  mode: 'production',
 
-    entry: './src/index.ts',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: './index.js',
-    },
+  entry: './src/index.ts',
+  output: {
+    path: path.resolve(__dirname, 'docs/game'),
+    filename: './index.js',
+  },
 
-    resolve: {
-        // Add '.ts' as resolvable extensions.
-        extensions: ['*', '.webpack.js', '.web.js', '.ts', '.js'],
-        plugins: [
-            new TsconfigPathsPlugin({
-                /* options: see below */
-            }),
-        ],
-    },
-    
-
-    module: {
-        rules: [
-            // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-            { test: /\.tsx?$/, loader: 'ts-loader' },
-        ],
-    },
+  resolve: {
+    // Add '.ts' as resolvable extensions.
+    extensions: ['*', '.webpack.js', '.web.js', '.ts', '.js'],
     plugins: [
-        new CopyPlugin({
-            patterns: [{ from: 'src/assets' }],
-        }),
+      new TsconfigPathsPlugin({
+        /* options: see below */
+      }),
     ],
+  },
 
-    // Other options...
+  module: {
+    rules: [
+      // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
+      { test: /\.tsx?$/, loader: 'ts-loader' },
+    ],
+  },
+  plugins: [
+    new CopyPlugin({
+      patterns: [{ from: 'src/assets' }],
+    }),
+  ],
+
+  // Other options...
 };
