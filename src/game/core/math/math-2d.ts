@@ -1,6 +1,9 @@
 import { Point2d } from './point-2d';
 
 export class Math2d {
+  static scale(p: Point2d, scale: number): Point2d {
+    return { x: p.x * scale, y: p.y * scale };
+  }
   static norm(p: Point2d): Point2d {
     const n = Math.sqrt(p.x * p.x + p.y * p.y);
 

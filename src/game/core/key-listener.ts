@@ -13,6 +13,8 @@ export class KeyListener {
     debug: false,
   };
 
+  isPressedObserver?: (e: KeyboardEvent) => boolean;
+
   constructor(private loggerService: LoggerService) {}
 
   private keyDown(event: KeyboardEvent) {
@@ -32,12 +34,15 @@ export class KeyListener {
       case ' ':
         this.keys.A = true;
         break;
+      case 'Backspace':
+        this.keys.SELECT = true;
+        break;
       case '<':
         this.keys.debug = !this.keys.debug;
         if (this.keys.debug) {
           (window as any).debug = 1;
         } else {
-          delete (window as any).debuga;
+          delete (window as any).debug;
         }
         break;
       default:
@@ -60,14 +65,25 @@ export class KeyListener {
         break;
       case '<':
         break;
+      case 'Backspace':
+        this.keys.SELECT = false;
+        break;
       case ' ':
         this.keys.A = false;
         break;
     }
   }
 
+  keyPress(event: KeyboardEvent) {
+    const r = this.isPressedObserver?.(event);
+    if (r) {
+      delete this.isPressedObserver;
+    }
+  }
+
   start() {
     document.addEventListener('keydown', e => this.keyDown(e), false);
     document.addEventListener('keyup', e => this.keyUp(e), false);
+    document.addEventListener('keypress', e => this.keyPress(e), false);
   }
 }

@@ -21,10 +21,20 @@ export class HUDRenderer {
   }
 
   render(ctx: CanvasRenderingContext2D, dT: number) {
-    return;
-    this.spriteSheet.getSprite('back')?.draw(ctx, { x: 0, y: 0 });
+    //  this.spriteSheet.getSprite('back')?.draw(ctx, { x: 0, y: 0 });
     this.renderHearts(ctx);
-    this.renderItems(ctx);
+    // this.renderItems(ctx);
+    ctx.fillStyle = 'white';
+    ctx.fillText(this.state.inventory.equippedA, 8, 8);
+    if (this.state.dialog) {
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 16 * 13, 16 * 16, 32 + 16);
+      ctx.strokeStyle = 'white';
+      for (let i = 0; i < this.state.dialog.split('\n').length; i++) {
+        const t = this.state.dialog.split('\n')[i];
+        ctx.strokeText(t, 4, 16 * 13 + 12 + 16 * i);
+      }
+    }
   }
 
   renderItems(ctx: CanvasRenderingContext2D) {

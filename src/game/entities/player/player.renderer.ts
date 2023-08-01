@@ -39,7 +39,7 @@ export class PlayerRenderer implements EntityRenderer {
     });
     ctx.filter = 'none';
     if (this.entity.state.attack) {
-      this.entity.state.attack.area.forEach(b => {
+      this.entity.state.attack?.area.forEach(b => {
         ctx.strokeRect(b.left * 16, 3 * 16 + b.top * 16, 16 * b.size.x, 16 * b.size.y);
       });
     }

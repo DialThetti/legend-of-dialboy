@@ -4,11 +4,20 @@ import { SlimeEntity } from '../entities/slime/slime.entity';
 import { Entity } from './entities/entity';
 import BoundingBox from './math/rectangle';
 
+export const items = ['Sword', 'Dash'];
 export class GameState {
   player!: PlayerEntity;
   mapEntity!: MapEntity;
-  inventory: Inventory = { swordL1: false, rupees: 0, keys: 0, bombs: 0 };
+  inventory: Inventory = {
+    equippedA: 'Sword',
 
+    swordL1: false,
+    rupees: 0,
+    keys: 0,
+    bombs: 0,
+  };
+  pause = false;
+  dialog?: string;
   entities: Entity[] = [];
   constructor() {
     (window as any).setRupees = (i: number) => (this.inventory.rupees = i);
@@ -35,6 +44,7 @@ export class GameState {
 }
 
 export interface Inventory {
+  equippedA: string;
   swordL1: boolean;
   rupees: number;
   keys: number;

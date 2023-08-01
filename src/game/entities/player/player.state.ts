@@ -12,8 +12,12 @@ export interface PlayerState extends EntityState {
   speed: number;
   forcedWay: number;
   entityGhost: number;
-  attack?: {
-    timer: number;
-    area: BoundingBox[];
-  };
+  attack?: Attack;
+}
+
+interface Attack {
+  timer: number;
+  area: BoundingBox[];
+  properties?: string[];
+  next?: Attack;
 }

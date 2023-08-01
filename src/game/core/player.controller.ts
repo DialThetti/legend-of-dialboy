@@ -1,5 +1,5 @@
 import { KeyListener } from './key-listener';
-import { GameState } from './game-state';
+import { GameState, items } from './game-state';
 import { PlayerEntity } from '@game/entities/player/player.entity';
 import { PlayerState } from '../entities/player/player.state';
 import BoundingBox from './math/rectangle';
@@ -8,6 +8,8 @@ import { Math2d } from './math/math-2d';
 export class PlayerController {
   blockTrigger = false;
   speed = 1 / 15;
+
+  weaponChanged = false;
   constructor(private gameState: GameState, private player: PlayerEntity, private keyListener: KeyListener) {}
 
   async update(dT: number) {
@@ -18,9 +20,33 @@ export class PlayerController {
     this.player.state.ghost = this.keyListener.keys.debug;
     this.setMovementByKeys(state);
     this.mapTransition();
+    if (this.keyListener.keys.SELECT) {
+      if (!this.weaponChanged) {
+        let i = items.findIndex(k => k === this.gameState.inventory.equippedA) + 1;
+        if (i >= items.length) {
+          i = 0;
+        }
+        this.gameState.inventory.equippedA = items[i];
+        this.weaponChanged = true;
+      }
+    } else {
+      this.weaponChanged = false;
+    }
   }
 
   private setMovementByKeys(state: PlayerState) {
+    if (this.gameState.pause) {
+      if (!this.keyListener.isPressedObserver) {
+        this.keyListener.isPressedObserver = (e: KeyboardEvent) => {
+          if (e.key === ' ') {
+            this.gameState.pause = false;
+            delete this.gameState.dialog;
+          }
+          return false;
+        };
+      }
+      return;
+    }
     if (state.forcedWay != 0) {
       return;
     }
@@ -51,34 +77,16 @@ export class PlayerController {
     }
 
     if (this.keyListener.keys.A) {
-      let s = { x: 0, y: 0 };
-      let o = { x: 0, y: 0 };
-      switch (this.player.state.direction) {
-        case 'RIGHT':
-          o = { x: 1, y: 0 };
+      switch (this.gameState.inventory.equippedA) {
+        case 'Sword':
+          state.attack = SwordAttack.get(this.player);
+
           break;
-        case 'LEFT':
-          s = { x: -1, y: 0 };
-          o = { x: 1, y: 0 };
-          break;
-        case 'UP':
-          s = { x: 0, y: -1 };
-          o = { x: 0, y: 1 };
-          break;
-        case 'DOWN':
-          o = { x: 0, y: 1 };
+        case 'Dash':
+          state.attack = DashAttack.get(this.player);
+
           break;
       }
-      state.attack = {
-        timer: 0.5,
-        area: [
-          new BoundingBox(
-            Math2d.add(this.player.state.position, s),
-            Math2d.add({ x: this.player.hitBox.size.x, y: this.player.hitBox.size.y }, o),
-            this.player.hitBox.offset
-          ),
-        ],
-      };
     }
   }
 
@@ -112,5 +120,74 @@ export class PlayerController {
       this.gameState.mapEntity.state.currentMapId = newMapId;
       await this.gameState.mapEntity.loadChunk();
     }
+  }
+}
+
+class DashAttack {
+  static get(player: PlayerEntity) {
+    if (player.state.attack) {
+      return player.state.attack;
+    }
+    let dir;
+    switch (player.state.direction) {
+      case 'RIGHT':
+        dir = { x: 1, y: 0 };
+        break;
+      case 'LEFT':
+        dir = { x: -1, y: 0 };
+        break;
+      case 'UP':
+        dir = { x: 0, y: -1 };
+        break;
+      case 'DOWN':
+        dir = { x: 0, y: 1 };
+        break;
+    }
+
+    const speed = 5;
+    player.state.forcedWay = 1 / (3 * speed);
+    player.state.velocity = Math2d.scale(dir, speed);
+    return {
+      timer: 1 / (3 * speed) + 0.2,
+      area: [player.hitBox],
+      properties: ['invicible'],
+      next: {
+        timer: 1,
+        area: [],
+        properties: ['cooldown'],
+      },
+    };
+  }
+}
+class SwordAttack {
+  static get(player: PlayerEntity) {
+    let s = { x: 0, y: 0 };
+    let o = { x: 0, y: 0 };
+    switch (player.state.direction) {
+      case 'RIGHT':
+        o = { x: 1, y: 0 };
+        break;
+      case 'LEFT':
+        s = { x: -1, y: 0 };
+        o = { x: 1, y: 0 };
+        break;
+      case 'UP':
+        s = { x: 0, y: -1 };
+        o = { x: 0, y: 1 };
+        break;
+      case 'DOWN':
+        o = { x: 0, y: 1 };
+        break;
+    }
+    return {
+      timer: 0.2,
+      area: [
+        new BoundingBox(
+          Math2d.add(player.state.position, s),
+          Math2d.add({ x: player.hitBox.size.x, y: player.hitBox.size.y }, o),
+          player.hitBox.offset
+        ),
+      ],
+    };
   }
 }

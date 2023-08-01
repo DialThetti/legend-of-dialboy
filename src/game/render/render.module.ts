@@ -14,9 +14,9 @@ export class RenderModule {
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     this.ctx.scale(1, 1);
     const hud = new HUDRenderer();
-    await hud.load(this.core.mapState);
+    await hud.load(this.core.gameState);
     Timer.repeat(async dT => {
-      const entities = this.core.mapState.getEntities();
+      const entities = this.core.gameState.getEntities();
       const renderers = entities
         .filter(e => e.state)
         .sort((a, b) => a.state.position.z - b.state.position.z)
@@ -24,12 +24,12 @@ export class RenderModule {
       for (const re of renderers) {
         await re.render(this.ctx, dT);
       }
-      this.core.mapState.mapEntity.renderer.renderTop(this.ctx, dT);
+      this.core.gameState.mapEntity.renderer.renderTop(this.ctx, dT);
 
       if ((window as any).debug) {
         for (let x = 0; x < 16; x++) {
           for (let y = 0; y < 12; y++) {
-            const solid = this.core.mapState.isSolidTile({ x, y });
+            const solid = this.core.gameState.isSolidTile({ x, y });
             if (solid) {
               this.ctx.strokeStyle = 'red';
               this.ctx.strokeRect(x * 16, y * 16 + 3 * 16, 16, 16);

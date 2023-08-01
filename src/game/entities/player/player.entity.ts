@@ -19,8 +19,8 @@ export class PlayerEntity implements Entity {
     await this.renderer.load();
     this.state = {
       hearts: { current: 3, max: 3 },
-      direction: 'UP',
-      position: { x: 5, y: 5, z: 100 },
+      direction: 'DOWN',
+      position: { x: 3.3, y: 4, z: 100 },
       velocity: { x: 0, y: 0 },
       step: 0,
       speed: 3,
@@ -31,7 +31,8 @@ export class PlayerEntity implements Entity {
   }
   async update(dT: number) {
     if (this.state.attack) {
-      if (await this.gameState.mapEntity.interact(this)) {
+      if (!this.state.attack?.properties?.includes('cooldown') && (await this.gameState.mapEntity.interact(this))) {
+        debugger;
         this.state.attack.timer = 0;
       } else {
         this.state.attack.timer -= dT;
@@ -44,8 +45,12 @@ export class PlayerEntity implements Entity {
         );
       }
 
-      if (this.state.attack.timer <= 0) {
-        delete this.state.attack;
+      if (this.state.attack?.timer <= 0) {
+        if (this.state.attack?.next) {
+          this.state.attack = this.state.attack.next;
+        } else {
+          delete this.state.attack;
+        }
       }
     }
     if (this.state.entityGhost >= 0) {
@@ -67,7 +72,7 @@ export class PlayerEntity implements Entity {
         this.state.forcedWay = 0;
       }
     } else {
-      if (!this.state.attack) {
+      if (!this.state.attack || this.state.attack?.properties?.includes('cooldown')) {
         this.move(this.state.speed, dT);
       }
     }
@@ -96,6 +101,14 @@ export class PlayerEntity implements Entity {
   hit(dmg: number, direction: Point2d) {
     if (this.state.entityGhost > 0) {
       return;
+    }
+    if (this.state.attack?.properties?.includes('invicible')) {
+      return;
+    }
+    this.state.hearts.current -= 0.5;
+    if (this.state.hearts.current == 0) {
+      alert('dead');
+      window.location = window.location;
     }
     this.state.velocity = direction;
     this.state.forcedWay = 0.1;

@@ -8,22 +8,24 @@ import { GameState } from './game-state';
 export class CoreModule {
   private static instance?: CoreModule;
 
-  mapState = new GameState();
+  gameState = new GameState();
   private constructor(private sharedModule: SharedModule) {}
 
   async main(): Promise<void> {
     const kl = new KeyListener(this.sharedModule.loggerService);
-    this.mapState.player = new PlayerEntity(this.mapState);
-    await this.mapState.player.load();
-    const playerController = new PlayerController(this.mapState, this.mapState.player, kl);
-    this.mapState.mapEntity = new MapEntity(this.mapState);
-    await this.mapState.mapEntity.load();
-    await this.mapState.mapEntity.loadChunk();
+    this.gameState.player = new PlayerEntity(this.gameState);
+    await this.gameState.player.load();
+    const playerController = new PlayerController(this.gameState, this.gameState.player, kl);
+    this.gameState.mapEntity = new MapEntity(this.gameState);
+    await this.gameState.mapEntity.load();
+    await this.gameState.mapEntity.loadChunk();
     kl.start();
     let last = Date.now();
     Timer.repeat((dT: number) => {
-      this.mapState.getEntities().forEach(e => e.update(dT));
       playerController.update(dT);
+      if (!this.gameState.pause) {
+        this.gameState.getEntities().forEach(e => e.update(dT));
+      }
     }).start();
   }
 

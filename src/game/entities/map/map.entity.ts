@@ -22,7 +22,7 @@ export class MapEntity implements Entity {
     await this.renderer.load();
     this.state = {
       position: { x: 0, y: 0, z: 0 },
-      currentMapId: '8d',
+      currentMapId: '8c',
       velocity: { x: 0, y: 0 },
       direction: 'DOWN',
     };
@@ -39,14 +39,14 @@ export class MapEntity implements Entity {
       const payload = JSON.parse((obj.properties.find(p => p.name === 'payload')?.value as string) ?? '{}');
       switch (obj.properties.find(p => p.name === 'type')?.value) {
         case 'teleport':
-          console.log(payload);
           await this.load(payload.map);
           this.state.currentMapId = payload.mapId;
 
           await this.loadChunk();
           p.state.position = { x: payload.x, y: payload.y, z: p.state.position.z };
           break;
-
+        case 'entity':
+          break;
         default:
           console.log(obj);
       }
@@ -79,8 +79,11 @@ export class MapEntity implements Entity {
       const payload = JSON.parse((obj.properties.find(p => p.name === 'payload')?.value as string) ?? '{}');
       switch (obj.properties.find(p => p.name === 'type')?.value) {
         case 'dialog':
-          console.log(payload);
+          this.gameState.pause = true;
+          this.gameState.dialog = payload.text;
+
           return true;
+        case 'entity':
           break;
         default:
           console.log(obj);
