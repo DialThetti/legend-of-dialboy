@@ -1,0 +1,14 @@
+{ "columns":26,
+ "image":"16x16\/sRGW_Overworld_Water.png",
+ "imageheight":224,
+ "imagewidth":416,
+ "margin":0,
+ "name":"sRGW_Overworld_Water",
+ "spacing":0,
+ "tilecount":364,
+ "tiledversion":"1.7.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.6"
+}

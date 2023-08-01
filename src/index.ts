@@ -1,4 +1,3 @@
-import { CoreModule } from 'src/core/core.module';
-import { GameModule } from './game.module';
+import { GameModule } from './game/game.module';
 
 GameModule.get();

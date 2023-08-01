@@ -1,0 +1,19 @@
+{
+  "DOWN_IDLE": { "steps": ["DOWN2"], "duration": 0 },
+  "DOWN_WALK": {
+    "steps": ["DOWN1", "DOWN2", "DOWN3", "DOWN2"],
+    "duration": 0.2
+  },
+  "RIGHT_IDLE": { "steps": ["RIGHT2"], "duration": 0 },
+  "RIGHT_WALK": {
+    "steps": ["RIGHT1", "RIGHT2", "RIGHT3", "RIGHT2"],
+    "duration": 0.2
+  },
+  "LEFT_IDLE": { "steps": ["LEFT2"], "duration": 0 },
+  "LEFT_WALK": {
+    "steps": ["LEFT1", "LEFT2", "LEFT3", "LEFT2"],
+    "duration": 0.2
+  },
+  "UP_IDLE": { "steps": ["UP2"], "duration": 0 },
+  "UP_WALK": { "steps": ["UP1", "UP2", "UP3", "UP2"], "duration": 0.2 }
+}

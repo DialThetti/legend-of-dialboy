@@ -1,5 +1,5 @@
-import { Animation } from 'src/render/core/animation';
-import { SpriteSheet } from 'src/render/core/spritesheet';
+import { Animation } from '../../render/core/animation';
+import { SpriteSheet } from '../../render/core/spritesheet';
 import { ItemEntity } from './item.entity';
 
 export class ItemRenderer {
