@@ -3730,12 +3730,13 @@
          "y":0
         }, 
         {
+         "color":"#ff0000",
          "draworder":"topdown",
          "id":3,
          "name":"Events",
          "objects":[
                 {
-                 "height":15.2727272727275,
+                 "height":3.2727272727275,
                  "id":7,
                  "name":"",
                  "properties":[
@@ -3755,6 +3756,138 @@
                  "width":16,
                  "x":3520.18181818182,
                  "y":1600.18181818182
+                }, 
+                {
+                 "height":15.2727272727273,
+                 "id":8,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"payload",
+                         "type":"string",
+                         "value":"{\n \"text\":\"Hello World.\"\n}"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"dialog"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.1818181818185,
+                 "x":3472,
+                 "y":1600.36363636364
+                }, 
+                {
+                 "height":15.2727,
+                 "id":11,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"payload",
+                         "type":"string",
+                         "value":"{\n \"entityType\":\"grass\"\n}"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"entity"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.6364,
+                 "x":3456.12119393939,
+                 "y":1552.36365
+                }, 
+                {
+                 "height":15.2727,
+                 "id":12,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"payload",
+                         "type":"string",
+                         "value":"{\n \"entityType\":\"grass\"\n}"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"entity"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.6364,
+                 "x":3455.81816363636,
+                 "y":1536.54546818182
+                }, 
+                {
+                 "height":15.2727,
+                 "id":13,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"payload",
+                         "type":"string",
+                         "value":"{\n \"entityType\":\"grass\"\n}"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"entity"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.6364,
+                 "x":3455.99998181818,
+                 "y":1568.36365
+                }, 
+                {
+                 "height":15.2727,
+                 "id":14,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"payload",
+                         "type":"string",
+                         "value":"{\n \"entityType\":\"grass\"\n}"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"entity"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.6364,
+                 "x":3392.36361818182,
+                 "y":1536.18183181818
+                }, 
+                {
+                 "height":15.2727,
+                 "id":15,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"payload",
+                         "type":"string",
+                         "value":"{\n \"entityType\":\"grass\"\n}"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"entity"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.6364,
+                 "x":3391.99998181818,
+                 "y":1552.54546818182
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3763,7 +3896,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":8,
+ "nextobjectid":16,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

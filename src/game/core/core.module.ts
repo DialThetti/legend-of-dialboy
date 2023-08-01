@@ -16,7 +16,7 @@ export class CoreModule {
     this.mapState.player = new PlayerEntity(this.mapState);
     await this.mapState.player.load();
     const playerController = new PlayerController(this.mapState, this.mapState.player, kl);
-    this.mapState.mapEntity = new MapEntity();
+    this.mapState.mapEntity = new MapEntity(this.mapState);
     await this.mapState.mapEntity.load();
     await this.mapState.loadChunk(this.mapState.mapEntity.state.currentMapId);
     kl.start();

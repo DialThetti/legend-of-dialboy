@@ -63,9 +63,66 @@
          "width":16,
          "x":0,
          "y":0
+        }, 
+        {
+         "color":"#ff0000",
+         "draworder":"topdown",
+         "id":3,
+         "name":"Objects 1",
+         "objects":[
+                {
+                 "height":15.2727272727273,
+                 "id":1,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"payload",
+                         "type":"string",
+                         "value":"{\n \"entityType\":\"slime:BLUE\"\n}"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"entity"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.6363636363637,
+                 "x":176.909090909091,
+                 "y":65.0909090909091
+                }, 
+                {
+                 "height":15.2727,
+                 "id":4,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"payload",
+                         "type":"string",
+                         "value":"{\n \"entityType\":\"grass\"\n}"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"entity"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.6364,
+                 "x":177.1818,
+                 "y":144.86365
+                }],
+         "opacity":1,
+         "tintcolor":"#ff0000",
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":3,
- "nextobjectid":1,
+ "nextlayerid":5,
+ "nextobjectid":5,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

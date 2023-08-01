@@ -18,7 +18,7 @@ export class AStar {
       t = this.getMin(grid, t);
       result.push(t);
       tries--;
-    } while (tries != 0 && grid[t.x][t.y].steps != 0);
+    } while (tries != 0 && (grid[t.x]?.[t.y]?.steps ?? 0) != 0);
     return result;
   }
 

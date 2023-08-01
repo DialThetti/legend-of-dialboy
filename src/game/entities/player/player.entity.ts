@@ -31,14 +31,19 @@ export class PlayerEntity implements Entity {
   }
   async update(dT: number) {
     if (this.state.attack) {
-      this.state.attack.timer -= dT;
-      this.gameState.entities.forEach(e =>
-        this.state.attack?.area.forEach(a => {
-          if (e.hitBox.overlaps(a)) {
-            (e as any).damage?.();
-          }
-        })
-      );
+      if (await this.gameState.mapEntity.interact(this)) {
+        this.state.attack.timer = 0;
+      } else {
+        this.state.attack.timer -= dT;
+        this.gameState.entities.forEach(e =>
+          this.state.attack?.area.forEach(a => {
+            if (e.hitBox.overlaps(a)) {
+              (e as any).damage?.();
+            }
+          })
+        );
+      }
+
       if (this.state.attack.timer <= 0) {
         delete this.state.attack;
       }

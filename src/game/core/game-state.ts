@@ -19,29 +19,7 @@ export class GameState {
   async load() {}
 
   async loadChunk(id: string) {
-    this.entities = [];
-    if (id === '8d') {
-      let x = 5;
-      let y = 0;
-      for (let index = 0; index < 0; index++) {
-        const color = ['GREEN', 'RED', 'BLUE', 'VIOLET'][Math.floor(Math.random() * 4)];
-        const s = new SlimeEntity(this);
-        this.entities.push(s);
-        await s.load({
-          position: { x, y, z: 5 },
-          direction: 'DOWN',
-          color: color as any,
-          velocity: { x: 0, y: 0 },
-          speed: { GREEN: 1, RED: 1.5, BLUE: 2, VIOLET: 3 }[color] ?? 1,
-          sleepTime: { GREEN: 1, RED: 0.75, BLUE: 0.5, VIOLET: 0 }[color] ?? 1,
-        });
-        x++;
-        if (x == 8) {
-          x = 5;
-          y++;
-        }
-      }
-    }
+    await this.mapEntity.loadChunk();
   }
 
   isSolidTile(p: { x: number; y: number }): boolean {
